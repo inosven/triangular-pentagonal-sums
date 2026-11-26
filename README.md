@@ -50,10 +50,11 @@ Corollary 1.3, including the 2468 small cases, which the kernel checks from an e
 ## Classical input
 
 Proposition 4.1 (primitive representation by `x^2+y^2+3z^2` and `x^2+3y^2+3z^2`) rests on the
-local-global principle for a genus and on class number one. The references in the paper
-(Cassels Ch. 9 Thm 1.3 and Ch. 12, O'Meara 81:14, 92, 102, Jones-Pall, Brandt-Intrau,
-Lorch-Kirschmer, Jagy-Kaplansky-Schiemann) were written from memory and secondary sources and
-still need to be checked against the originals before submission.
+local-global principle for a genus and on class number one. The journal references
+(Jones-Pall, Brandt-Intrau, Lorch-Kirschmer, Jagy-Kaplansky-Schiemann) and O'Meara 81:14 and
+102:5 were checked against bibliographic records and citing papers on 2026-11-26. The chapter
+and theorem numbers in Cassels (Ch. 9 Thm 1.3, Ch. 12) and O'Meara 92 were not checked against
+the books themselves; this is still to do before submission.
 
 ## Not covered
 
