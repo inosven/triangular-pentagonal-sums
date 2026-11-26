@@ -611,8 +611,10 @@ have been formalized in Lean~4 with Mathlib; the development is a single file \t
 Proposition~\ref{prop:classical} is not formalized, since the theory of genera is not available in Mathlib.
 It enters as two explicit hypotheses,
 \begin{align*}
-\texttt{PrimRep133}&:\quad \forall N\in\Z,\ N>0,\ N\equiv 7 \ (\mathrm{mod}\ 24)\ \Longrightarrow\ \exists\, v,a,b\in\Z:\ v^2+3a^2+3b^2=N,\ \gcd(v,a,b)=1,\\
-\texttt{PrimRep113}&:\quad \forall N\in\Z,\ N>0,\ N\equiv 5 \ (\mathrm{mod}\ 24)\ \Longrightarrow\ \exists\, u,v,w\in\Z:\ 3u^2+v^2+w^2=N,\ \gcd(u,v,w)=1,
+\texttt{PrimRep133}:\quad &\forall N\in\Z,\ N>0,\ N\equiv 7 \ (\mathrm{mod}\ 24)\ \Longrightarrow\\
+&\exists\, v,a,b\in\Z:\ v^2+3a^2+3b^2=N,\ \gcd(v,a,b)=1,\\
+\texttt{PrimRep113}:\quad &\forall N\in\Z,\ N>0,\ N\equiv 5 \ (\mathrm{mod}\ 24)\ \Longrightarrow\\
+&\exists\, u,v,w\in\Z:\ 3u^2+v^2+w^2=N,\ \gcd(u,v,w)=1,
 \end{align*}
 which are exactly the two parts of Proposition~\ref{prop:classical}. The formal statements proved are the following.
 \begin{itemize}
