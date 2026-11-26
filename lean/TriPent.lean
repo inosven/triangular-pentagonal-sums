@@ -1520,6 +1520,501 @@ theorem tuple_3_5_3_1_1_1 (hP : PrimRep113) (n : ℕ) :
   rw [e1, e2] at h
   exact ⟨w, z, x, by omega⟩
 
+/-! ## Signed solutions: Lemma 3.7, Theorems 3.8 and 3.9 -/
+
+/-- **Lemma 3.7.** The partner of a pair `(u, x)`, where `x ≥ -1` stands for a `v` with `v ≡ 2 (mod 3)`
+(`x = v`) or for `v = 1` (`x = -1`). Either there is a pair `(u', v')` with the same norm and
+`v' ≡ 1 (mod 3)`, `v' > 1`, or the linear formulas of case I give a pair of the same kind. -/
+theorem partnerHat (u x : ℤ) (hu0 : 0 < u) (hx : -1 ≤ x) (hu : u % 2 = 1) (hxo : x % 2 = 1)
+    (hx3 : x % 3 = 2) (hne : ¬(u = 1 ∧ x = -1)) :
+    (∃ u' v' : ℤ, 0 < u' ∧ 1 < v' ∧ u' % 2 = 1 ∧ v' % 2 = 1 ∧ v' % 3 = 1 ∧
+        3 * u' ^ 2 + v' ^ 2 = 3 * u ^ 2 + x ^ 2) ∨
+      (0 < (u + x) / 2 ∧ -1 ≤ (3 * u - x) / 2 ∧ ((u + x) / 2) % 2 = 1 ∧
+        ((3 * u - x) / 2) % 2 = 1 ∧ ((3 * u - x) / 2) % 3 = 2 ∧
+        3 * ((u + x) / 2) ^ 2 + ((3 * u - x) / 2) ^ 2 = 3 * u ^ 2 + x ^ 2) := by
+  by_cases h4 : (u - x) % 4 = 0
+  · obtain ⟨u', h1⟩ : ∃ u' : ℤ, 2 * u' = u + x := ⟨(u + x) / 2, by omega⟩
+    by_cases hbig : -1 ≤ (3 * u - x) / 2
+    · right
+      obtain ⟨x', h2⟩ : ∃ x' : ℤ, 2 * x' = 3 * u - x := ⟨(3 * u - x) / 2, by omega⟩
+      have e1 : (u + x) / 2 = u' := by omega
+      have e2 : (3 * u - x) / 2 = x' := by omega
+      rw [e1, e2]
+      exact ⟨by omega, by omega, by omega, by omega, by omega, normI h1 h2⟩
+    · left
+      obtain ⟨v', h2⟩ : ∃ v' : ℤ, 2 * v' = x - 3 * u := ⟨(x - 3 * u) / 2, by omega⟩
+      exact ⟨u', v', by omega, by omega, by omega, by omega, by omega, normII h1 h2⟩
+  · left
+    obtain ⟨v', h2⟩ : ∃ v' : ℤ, 2 * v' = 3 * u + x := ⟨(3 * u + x) / 2, by omega⟩
+    rcases lt_or_ge u x with hlt | hge
+    · obtain ⟨u', h1⟩ : ∃ u' : ℤ, 2 * u' = x - u := ⟨(x - u) / 2, by omega⟩
+      exact ⟨u', v', by omega, by omega, by omega, by omega, by omega, normIII' h1 h2⟩
+    · obtain ⟨u', h1⟩ : ∃ u' : ℤ, 2 * u' = u - x := ⟨(u - x) / 2, by omega⟩
+      exact ⟨u', v', by omega, by omega, by omega, by omega, by omega, normIII h1 h2⟩
+
+theorem stepS_rec' {s : ℤ × ℤ × ℤ} (hv : s.1 % 2 = 1) (ha : s.2.1 % 2 = 1) (hb : s.2.2 % 2 = 1)
+    (hv1 : ((3 * s.2.1 - s.1) / 2) % 2 = 1) :
+    Rel1 (s.2.1 - s.1) (s.2.2 - s.1) ((stepS s).2.1 - (stepS s).1)
+      ((stepS s).2.2 - (stepS s).1) := by
+  simp only [stepS, Rel1]
+  constructor <;> omega
+
+/-- A set of integer triples `(v, a, b)` with odd entries that is contained in a box and closed
+under the linear maps `A` and `B` of Theorem 3.2 consists of diagonal triples. -/
+theorem orbitS (P : ℤ → ℤ → ℤ → Prop) (M : ℕ)
+    (hbox : ∀ v a b, P v a b →
+      -(M : ℤ) ≤ v ∧ v ≤ M ∧ -(M : ℤ) ≤ a ∧ a ≤ M ∧ -(M : ℤ) ≤ b ∧ b ≤ M)
+    (hodd : ∀ v a b, P v a b → v % 2 = 1 ∧ a % 2 = 1 ∧ b % 2 = 1)
+    (hA : ∀ v a b, P v a b → P ((3 * a - v) / 2) ((a + v) / 2) b)
+    (hB : ∀ v a b, P v a b → P ((3 * b - v) / 2) a ((b + v) / 2))
+    {v a b : ℤ} (h : P v a b) : v = a ∧ a = b := by
+  have hcl : ∀ s : ℤ × ℤ × ℤ, P s.1 s.2.1 s.2.2 →
+      P ((3 * s.2.1 - s.1) / 2) ((s.2.1 + s.1) / 2) s.2.2 ∧
+      P (stepS s).1 (stepS s).2.1 (stepS s).2.2 := by
+    intro s hs
+    have h1 := hA _ _ _ hs
+    exact ⟨h1, hB _ _ _ h1⟩
+  have ht : ∀ j, P (stepS^[j] (v, a, b)).1 (stepS^[j] (v, a, b)).2.1
+      (stepS^[j] (v, a, b)).2.2 := by
+    intro j
+    induction j with
+    | zero => exact h
+    | succ j ih =>
+      rw [Function.iterate_succ_apply']
+      exact (hcl _ ih).2
+  have hbd : ∀ j, stepS^[j] (v, a, b) ∈
+      Set.Icc ((-(M : ℤ), -(M : ℤ), -(M : ℤ)) : ℤ × ℤ × ℤ) (M, M, M) := by
+    intro j
+    obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hbox _ _ _ (ht j)
+    exact ⟨⟨h1, h3, h5⟩, ⟨h2, h4, h6⟩⟩
+  obtain ⟨i, j, hij, hEq⟩ := (Set.finite_Icc _ _).exists_lt_map_eq_of_forall_mem hbd
+  have hper := iterate_periodic stepS (v, a, b) hij hEq
+  have hrec : ∀ m, Rel1 ((stepS^[m] (v, a, b)).2.1 - (stepS^[m] (v, a, b)).1)
+      ((stepS^[m] (v, a, b)).2.2 - (stepS^[m] (v, a, b)).1)
+      ((stepS^[m + 1] (v, a, b)).2.1 - (stepS^[m + 1] (v, a, b)).1)
+      ((stepS^[m + 1] (v, a, b)).2.2 - (stepS^[m + 1] (v, a, b)).1) := by
+    intro m
+    rw [Function.iterate_succ_apply']
+    obtain ⟨o1, o2, o3⟩ := hodd _ _ _ (ht m)
+    obtain ⟨o4, -, -⟩ := hodd _ _ _ (hcl _ (ht m)).1
+    exact stepS_rec' o1 o2 o3 o4
+  have hzero := descent1 (2 * M)
+    (fun k => ((stepS^[i + k] (v, a, b)).2.1 - (stepS^[i + k] (v, a, b)).1,
+      (stepS^[i + k] (v, a, b)).2.2 - (stepS^[i + k] (v, a, b)).1))
+    (fun k => hrec (i + k)) (j - i) (by omega)
+    (fun k => by
+      show ((stepS^[i + (k + (j - i))] (v, a, b)).2.1 - (stepS^[i + (k + (j - i))] (v, a, b)).1,
+        (stepS^[i + (k + (j - i))] (v, a, b)).2.2 - (stepS^[i + (k + (j - i))] (v, a, b)).1) = _
+      rw [← Nat.add_assoc, hper k])
+    (fun k => by
+      obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hbox _ _ _ (ht (i + k))
+      show -((2 * M : ℕ) : ℤ) ≤ _ ∧ _ ≤ ((2 * M : ℕ) : ℤ) ∧ -((2 * M : ℕ) : ℤ) ≤ _ ∧
+        _ ≤ ((2 * M : ℕ) : ℤ)
+      omega) 0
+  have hback : ∀ m, (stepS^[m] (v, a, b)).2.1 - (stepS^[m] (v, a, b)).1 = 0 ∧
+      (stepS^[m] (v, a, b)).2.2 - (stepS^[m] (v, a, b)).1 = 0 →
+      a - v = 0 ∧ b - v = 0 := by
+    intro m
+    induction m with
+    | zero => exact fun hm => hm
+    | succ m ih =>
+      intro hm
+      apply ih
+      obtain ⟨r1, r2⟩ := hrec m
+      omega
+  have h0 := hback i ⟨congrArg Prod.fst hzero, congrArg Prod.snd hzero⟩
+  exact ⟨by omega, by omega⟩
+
+theorem stepT_rec' {s : ℤ × ℤ × ℤ} (hu : s.1 % 2 = 1) (hv : s.2.1 % 2 = 1) (hw : s.2.2 % 2 = 1)
+    (hu1 : ((s.1 + s.2.1) / 2) % 2 = 1) :
+    Rel2 (s.1 - s.2.1) (s.1 - s.2.2) ((stepT s).1 - (stepT s).2.1)
+      ((stepT s).1 - (stepT s).2.2) := by
+  simp only [stepT, Rel2]
+  constructor <;> omega
+
+/-- The analogue of `orbitS` for triples `(u, v, w)` and the maps of Theorem 3.3. -/
+theorem orbitT (P : ℤ → ℤ → ℤ → Prop) (M : ℕ)
+    (hbox : ∀ u v w, P u v w →
+      -(M : ℤ) ≤ u ∧ u ≤ M ∧ -(M : ℤ) ≤ v ∧ v ≤ M ∧ -(M : ℤ) ≤ w ∧ w ≤ M)
+    (hodd : ∀ u v w, P u v w → u % 2 = 1 ∧ v % 2 = 1 ∧ w % 2 = 1)
+    (hA : ∀ u v w, P u v w → P ((u + v) / 2) ((3 * u - v) / 2) w)
+    (hB : ∀ u v w, P u v w → P ((u + w) / 2) v ((3 * u - w) / 2))
+    {u v w : ℤ} (h : P u v w) : u = v ∧ v = w := by
+  have hcl : ∀ s : ℤ × ℤ × ℤ, P s.1 s.2.1 s.2.2 →
+      P ((s.1 + s.2.1) / 2) ((3 * s.1 - s.2.1) / 2) s.2.2 ∧
+      P (stepT s).1 (stepT s).2.1 (stepT s).2.2 := by
+    intro s hs
+    have h1 := hA _ _ _ hs
+    exact ⟨h1, hB _ _ _ h1⟩
+  have ht : ∀ j, P (stepT^[j] (u, v, w)).1 (stepT^[j] (u, v, w)).2.1
+      (stepT^[j] (u, v, w)).2.2 := by
+    intro j
+    induction j with
+    | zero => exact h
+    | succ j ih =>
+      rw [Function.iterate_succ_apply']
+      exact (hcl _ ih).2
+  have hbd : ∀ j, stepT^[j] (u, v, w) ∈
+      Set.Icc ((-(M : ℤ), -(M : ℤ), -(M : ℤ)) : ℤ × ℤ × ℤ) (M, M, M) := by
+    intro j
+    obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hbox _ _ _ (ht j)
+    exact ⟨⟨h1, h3, h5⟩, ⟨h2, h4, h6⟩⟩
+  obtain ⟨i, j, hij, hEq⟩ := (Set.finite_Icc _ _).exists_lt_map_eq_of_forall_mem hbd
+  have hper := iterate_periodic stepT (u, v, w) hij hEq
+  have hrec : ∀ m, Rel2 ((stepT^[m] (u, v, w)).1 - (stepT^[m] (u, v, w)).2.1)
+      ((stepT^[m] (u, v, w)).1 - (stepT^[m] (u, v, w)).2.2)
+      ((stepT^[m + 1] (u, v, w)).1 - (stepT^[m + 1] (u, v, w)).2.1)
+      ((stepT^[m + 1] (u, v, w)).1 - (stepT^[m + 1] (u, v, w)).2.2) := by
+    intro m
+    rw [Function.iterate_succ_apply']
+    obtain ⟨o1, o2, o3⟩ := hodd _ _ _ (ht m)
+    obtain ⟨o4, -, -⟩ := hodd _ _ _ (hcl _ (ht m)).1
+    exact stepT_rec' o1 o2 o3 o4
+  have hzero := descent2 (2 * M)
+    (fun k => ((stepT^[i + k] (u, v, w)).1 - (stepT^[i + k] (u, v, w)).2.1,
+      (stepT^[i + k] (u, v, w)).1 - (stepT^[i + k] (u, v, w)).2.2))
+    (fun k => hrec (i + k)) (j - i) (by omega)
+    (fun k => by
+      show ((stepT^[i + (k + (j - i))] (u, v, w)).1 - (stepT^[i + (k + (j - i))] (u, v, w)).2.1,
+        (stepT^[i + (k + (j - i))] (u, v, w)).1 - (stepT^[i + (k + (j - i))] (u, v, w)).2.2) = _
+      rw [← Nat.add_assoc, hper k])
+    (fun k => by
+      obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hbox _ _ _ (ht (i + k))
+      show -((2 * M : ℕ) : ℤ) ≤ _ ∧ _ ≤ ((2 * M : ℕ) : ℤ) ∧ -((2 * M : ℕ) : ℤ) ≤ _ ∧
+        _ ≤ ((2 * M : ℕ) : ℤ)
+      omega) 0
+  have hback : ∀ m, (stepT^[m] (u, v, w)).1 - (stepT^[m] (u, v, w)).2.1 = 0 ∧
+      (stepT^[m] (u, v, w)).1 - (stepT^[m] (u, v, w)).2.2 = 0 →
+      u - v = 0 ∧ u - w = 0 := by
+    intro m
+    induction m with
+    | zero => exact fun hm => hm
+    | succ m ih =>
+      intro hm
+      apply ih
+      obtain ⟨r1, r2⟩ := hrec m
+      omega
+  have h0 := hback i ⟨congrArg Prod.fst hzero, congrArg Prod.snd hzero⟩
+  exact ⟨by omega, by omega⟩
+
+/-- Signed solutions of `v² + 3a² + 3b² = N`: the entry `x ≥ -1` is `v` if `v ≡ 2 (mod 3)` and
+`-1` if `v = 1`. -/
+def IsSh (N x a b : ℤ) : Prop :=
+  -1 ≤ x ∧ 0 < a ∧ 0 < b ∧ x % 2 = 1 ∧ a % 2 = 1 ∧ b % 2 = 1 ∧ x % 3 = 2 ∧
+    x ^ 2 + 3 * a ^ 2 + 3 * b ^ 2 = N
+
+theorem IsSh.swap {N x a b : ℤ} (h : IsSh N x a b) : IsSh N x b a := by
+  obtain ⟨hx, ha0, hb0, hxo, ha, hb, hx3, heq⟩ := h
+  exact ⟨hx, hb0, ha0, hxo, hb, ha, hx3, by linarith⟩
+
+theorem IsSh.box {N x a b : ℤ} (h : IsSh N x a b) :
+    -((N.toNat : ℕ) : ℤ) ≤ x ∧ x ≤ (N.toNat : ℕ) ∧ -((N.toNat : ℕ) : ℤ) ≤ a ∧ a ≤ (N.toNat : ℕ) ∧
+      -((N.toNat : ℕ) : ℤ) ≤ b ∧ b ≤ (N.toNat : ℕ) := by
+  obtain ⟨hx, ha0, hb0, hxo, -, -, -, heq⟩ := h
+  have h1 : a ≤ N := by nlinarith [sq_nonneg x, sq_nonneg (a - 1), sq_nonneg b]
+  have h2 : b ≤ N := by nlinarith [sq_nonneg x, sq_nonneg (b - 1), sq_nonneg a]
+  have h3 : x ≤ N := by nlinarith [sq_nonneg (x - 1), sq_nonneg a, sq_nonneg b]
+  omega
+
+/-- From `(1, 1, b)`: `N ∈ {7, 31}`, or there is a solution with `v ≡ 1 (mod 3)`, `v > 1`. -/
+theorem IsS.one_one {N b : ℤ} (h : IsS N 1 1 b) :
+    N = 7 ∨ N = 31 ∨ ∃ v' a' b', IsS N v' a' b' ∧ v' % 3 = 1 ∧ 1 < v' := by
+  obtain ⟨-, -, hb0, -, -, hb, -, heq⟩ := h
+  have hN : N = 4 + 3 * b ^ 2 := by rw [← heq]; ring
+  rcases (show b % 4 = 1 ∨ b % 4 = 3 by omega) with h1 | h3
+  · obtain ⟨c, rfl⟩ : ∃ c : ℤ, b = 4 * c + 1 := ⟨(b - 1) / 4, by omega⟩
+    rcases (show c = 0 ∨ 1 ≤ c by omega) with rfl | hc
+    · left; rw [hN]; norm_num
+    · right; right
+      refine ⟨6 * c + 1, 1, 2 * c + 1, ⟨by omega, by omega, by omega, by omega, by omega,
+        by omega, by omega, ?_⟩, by omega, by omega⟩
+      rw [hN]; ring
+  · obtain ⟨c, rfl⟩ : ∃ c : ℤ, b = 4 * c + 3 := ⟨(b - 3) / 4, by omega⟩
+    rcases (show c = 0 ∨ 1 ≤ c by omega) with rfl | hc
+    · right; left; rw [hN]; norm_num
+    · right; right
+      rcases (show c % 2 = 0 ∨ c % 2 = 1 by omega) with he | ho
+      · obtain ⟨e, rfl⟩ : ∃ e : ℤ, c = 2 * e := ⟨c / 2, by omega⟩
+        refine ⟨6 * e + 1, 6 * e + 3, 4 * e + 1, ⟨by omega, by omega, by omega, by omega,
+          by omega, by omega, by omega, ?_⟩, by omega, by omega⟩
+        rw [hN]; ring
+      · obtain ⟨e, rfl⟩ : ∃ e : ℤ, c = 2 * e + 1 := ⟨(c - 1) / 2, by omega⟩
+        refine ⟨6 * e + 7, 6 * e + 5, 4 * e + 3, ⟨by omega, by omega, by omega, by omega,
+          by omega, by omega, by omega, ?_⟩, by omega, by omega⟩
+        rw [hN]; ring
+
+/-- **Theorem 3.8.** If `N ∉ {7, 31}` and `v² + 3a² + 3b² = N` has a solution in odd positive
+integers that is not diagonal, then it has such a solution with `v ≡ 1 (mod 3)` and `v > 1`. -/
+theorem exists_residue1_gt {N v a b : ℤ} (h : IsS N v a b) (hnd : ¬(v = a ∧ a = b))
+    (hN7 : N ≠ 7) (hN31 : N ≠ 31) :
+    ∃ v' a' b', IsS N v' a' b' ∧ v' % 3 = 1 ∧ 1 < v' := by
+  by_contra hcon
+  have hg : ∀ v' a' b', IsS N v' a' b' → v' % 3 = 1 → 1 < v' → False :=
+    fun v' a' b' hS h1 h2 => hcon ⟨v', a', b', hS, h1, h2⟩
+  have hex1 : ∀ b', ¬ IsS N 1 1 b' := by
+    intro b' hb'
+    rcases hb'.one_one with h7 | h31 | ⟨v', a', b'', hS, h1, h2⟩
+    · exact hN7 h7
+    · exact hN31 h31
+    · exact hg v' a' b'' hS h1 h2
+  have keyA : ∀ x a b, IsSh N x a b → IsSh N ((3 * a - x) / 2) ((a + x) / 2) b := by
+    rintro x a b ⟨hx, ha0, hb0, hxo, ha, hb, hx3, heq⟩
+    have hne : ¬(a = 1 ∧ x = -1) := by
+      rintro ⟨rfl, rfl⟩
+      exact hex1 b ⟨by norm_num, by norm_num, hb0, by norm_num, by norm_num, hb, by norm_num,
+        by linear_combination heq⟩
+    rcases partnerHat a x ha0 hx ha hxo hx3 hne with
+      ⟨a', v', ha'0, hv'1, ha', hv', hv'3, hn⟩ | ⟨h1, h2, h3, h4, h5, hn⟩
+    · exfalso
+      exact hg v' a' b ⟨by omega, ha'0, hb0, hv', ha', hb, by omega,
+        by linear_combination hn + heq⟩ hv'3 hv'1
+    · exact ⟨h2, h1, hb0, h4, h3, hb, h5, by linear_combination hn + heq⟩
+  have keyB : ∀ x a b, IsSh N x a b → IsSh N ((3 * b - x) / 2) a ((b + x) / 2) :=
+    fun x a b hs => (keyA x b a hs.swap).swap
+  have hdiag : ∀ x a b, IsSh N x a b → x = a ∧ a = b := fun x a b hs =>
+    orbitS (IsSh N) N.toNat (fun _ _ _ h' => h'.box)
+      (fun _ _ _ h' => ⟨h'.2.2.2.1, h'.2.2.2.2.1, h'.2.2.2.2.2.1⟩) keyA keyB hs
+  obtain ⟨hv0, ha0, hb0, hv, ha, hb, hv3, heq⟩ := h
+  rcases (show v % 3 = 2 ∨ v % 3 = 1 by omega) with h2 | h1
+  · exact hnd (hdiag v a b ⟨by omega, ha0, hb0, hv, ha, hb, h2, heq⟩)
+  · have hv1 : v = 1 := by
+      by_contra hne
+      exact hg v a b ⟨hv0, ha0, hb0, hv, ha, hb, hv3, heq⟩ h1 (by omega)
+    subst hv1
+    have := hdiag (-1) a b ⟨by norm_num, ha0, hb0, by norm_num, ha, hb, by norm_num,
+      by linear_combination heq⟩
+    omega
+
+/-- Signed solutions of `3u² + v² + w² = N`: the entries `x, y ≥ -1` stand for `v, w` that are
+`≡ 2 (mod 3)` (`x = v`) or equal to `1` (`x = -1`). -/
+def IsTh (N u x y : ℤ) : Prop :=
+  0 < u ∧ -1 ≤ x ∧ -1 ≤ y ∧ u % 2 = 1 ∧ x % 2 = 1 ∧ y % 2 = 1 ∧ x % 3 = 2 ∧ y % 3 = 2 ∧
+    3 * u ^ 2 + x ^ 2 + y ^ 2 = N
+
+theorem IsTh.swap {N u x y : ℤ} (h : IsTh N u x y) : IsTh N u y x := by
+  obtain ⟨hu0, hx, hy, hu, hxo, hyo, hx3, hy3, heq⟩ := h
+  exact ⟨hu0, hy, hx, hu, hyo, hxo, hy3, hx3, by linarith⟩
+
+theorem IsTh.box {N u x y : ℤ} (h : IsTh N u x y) :
+    -((N.toNat : ℕ) : ℤ) ≤ u ∧ u ≤ (N.toNat : ℕ) ∧ -((N.toNat : ℕ) : ℤ) ≤ x ∧ x ≤ (N.toNat : ℕ) ∧
+      -((N.toNat : ℕ) : ℤ) ≤ y ∧ y ≤ (N.toNat : ℕ) := by
+  obtain ⟨hu0, hx, hy, -, -, -, -, -, heq⟩ := h
+  have h1 : u ≤ N := by nlinarith [sq_nonneg x, sq_nonneg (u - 1), sq_nonneg y]
+  have h2 : x ≤ N := by nlinarith [sq_nonneg (x - 1), sq_nonneg (u - 1), sq_nonneg y]
+  have h3 : y ≤ N := by nlinarith [sq_nonneg (y - 1), sq_nonneg (u - 1), sq_nonneg x]
+  omega
+
+/-- From `(1, 1, w)` with `w ≡ 2 (mod 3)` or `w = 1`: `N ∈ {5, 29}`, or there is a solution
+`(u', v', w')` with `v' ≡ 1 (mod 3)`, `v' > 1` and `w' = 1`. -/
+theorem IsT.one_one {N w : ℤ} (h : IsT N 1 1 w) (hw : w % 3 = 2 ∨ w = 1) :
+    N = 5 ∨ N = 29 ∨
+      ∃ u' v' w', IsT N u' v' w' ∧ v' % 3 = 1 ∧ 1 < v' ∧ (w' % 3 = 2 ∨ w' = 1) := by
+  obtain ⟨-, -, hw0, -, -, hwo, -, hw3, heq⟩ := h
+  have hN : N = 4 + w ^ 2 := by rw [← heq]; ring
+  rcases hw with hw2 | rfl
+  · rcases (show w % 12 = 5 ∨ w % 12 = 11 by omega) with h5 | h11
+    · obtain ⟨c, rfl⟩ : ∃ c : ℤ, w = 12 * c + 5 := ⟨(w - 5) / 12, by omega⟩
+      rcases (show c = 0 ∨ 1 ≤ c by omega) with rfl | hc
+      · right; left; rw [hN]; norm_num
+      · right; right
+        refine ⟨6 * c + 3, 6 * c + 1, 1, ⟨by omega, by omega, by omega, by omega, by omega,
+          by omega, by omega, by omega, ?_⟩, by omega, by omega, Or.inr rfl⟩
+        rw [hN]; ring
+    · obtain ⟨c, rfl⟩ : ∃ c : ℤ, w = 12 * c + 11 := ⟨(w - 11) / 12, by omega⟩
+      right; right
+      refine ⟨6 * c + 5, 6 * c + 7, 1, ⟨by omega, by omega, by omega, by omega, by omega,
+        by omega, by omega, by omega, ?_⟩, by omega, by omega, Or.inr rfl⟩
+      rw [hN]; ring
+  · left; rw [hN]; norm_num
+
+/-- **Theorem 3.9.** If `N ∉ {5, 29}` and `3u² + v² + w² = N` has a solution in odd positive
+integers with `3 ∤ vw` that is not diagonal, then it has such a solution with `v ≡ 1 (mod 3)`,
+`v > 1`, and `w ≡ 2 (mod 3)` or `w = 1`. -/
+theorem exists_high_low {N u v w : ℤ} (h : IsT N u v w) (hnd : ¬(u = v ∧ v = w))
+    (hN5 : N ≠ 5) (hN29 : N ≠ 29) :
+    ∃ u' v' w', IsT N u' v' w' ∧ v' % 3 = 1 ∧ 1 < v' ∧ (w' % 3 = 2 ∨ w' = 1) := by
+  by_contra hcon
+  have hg : ∀ u' v' w', IsT N u' v' w' → v' % 3 = 1 → 1 < v' → (w' % 3 = 2 ∨ w' = 1) → False :=
+    fun u' v' w' hT h1 h2 h3 => hcon ⟨u', v', w', hT, h1, h2, h3⟩
+  have hg' : ∀ u' v' w', IsT N u' v' w' → w' % 3 = 1 → 1 < w' → (v' % 3 = 2 ∨ v' = 1) → False :=
+    fun u' v' w' hT h1 h2 h3 => hg u' w' v' hT.swap h1 h2 h3
+  have hex1 : ∀ w', ¬ IsT N 1 1 w' := by
+    intro w' hw'
+    have hlow : w' % 3 = 2 ∨ w' = 1 := by
+      by_contra hl
+      have h3 := hw'.2.2.2.2.2.2.2.1
+      have h0 := hw'.2.2.1
+      exact hg' 1 1 w' hw' (by omega) (by omega) (Or.inr rfl)
+    rcases hw'.one_one hlow with h5 | h29 | ⟨u', v', w'', hT, a1, a2, a3⟩
+    · exact hN5 h5
+    · exact hN29 h29
+    · exact hg u' v' w'' hT a1 a2 a3
+  -- the triples with both entries low
+  have keyA : ∀ u x y, IsTh N u x y → IsTh N ((u + x) / 2) ((3 * u - x) / 2) y := by
+    rintro u x y ⟨hu0, hx, hy, hu, hxo, hyo, hx3, hy3, heq⟩
+    have hne : ¬(u = 1 ∧ x = -1) := by
+      rintro ⟨rfl, rfl⟩
+      rcases (show y = -1 ∨ 0 < y by omega) with rfl | hy0
+      · exact hex1 1 ⟨by norm_num, by norm_num, by norm_num, by norm_num, by norm_num,
+          by norm_num, by norm_num, by norm_num, by linear_combination heq⟩
+      · exact hex1 y ⟨by norm_num, by norm_num, hy0, by norm_num, by norm_num, hyo,
+          by norm_num, by omega, by linear_combination heq⟩
+    rcases partnerHat u x hu0 hx hu hxo hx3 hne with
+      ⟨u', v', hu'0, hv'1, hu', hv', hv'3, hn⟩ | ⟨h1, h2, h3, h4, h5, hn⟩
+    · exfalso
+      rcases (show y = -1 ∨ 0 < y by omega) with rfl | hy0
+      · exact hg u' v' 1 ⟨hu'0, by omega, by norm_num, hu', hv', by norm_num, by omega,
+          by norm_num, by linear_combination hn + heq⟩ hv'3 hv'1 (Or.inr rfl)
+      · exact hg u' v' y ⟨hu'0, by omega, hy0, hu', hv', hyo, by omega, by omega,
+          by linear_combination hn + heq⟩ hv'3 hv'1 (Or.inl hy3)
+    · exact ⟨h1, h2, hy, h3, h4, hyo, h5, hy3, by linear_combination hn + heq⟩
+  have keyB : ∀ u x y, IsTh N u x y → IsTh N ((u + y) / 2) x ((3 * u - y) / 2) :=
+    fun u x y hs => (keyA u y x hs.swap).swap
+  have hlowdiag : ∀ u x y, IsTh N u x y → u = x ∧ x = y := fun u x y hs =>
+    orbitT (IsTh N) N.toNat (fun _ _ _ h' => h'.box)
+      (fun _ _ _ h' => ⟨h'.2.2.2.1, h'.2.2.2.2.1, h'.2.2.2.2.2.1⟩) keyA keyB hs
+  -- the triples with both entries high
+  have highA : ∀ u v w, (IsT N u v w ∧ v % 3 = 1 ∧ 1 < v ∧ w % 3 = 1 ∧ 1 < w) →
+      (IsT N ((u + v) / 2) ((3 * u - v) / 2) w ∧ ((3 * u - v) / 2) % 3 = 1 ∧
+        1 < (3 * u - v) / 2 ∧ w % 3 = 1 ∧ 1 < w) := by
+    rintro u v w ⟨hT, hv1, hv2, hw1, hw2⟩
+    obtain ⟨hu0, hv0, hw0, hu, hv, hw, hv3, hw3, heq⟩ := hT
+    obtain ⟨u', v', hu'0, hv'0, hu', hv', hv'3, hn, hcase⟩ := partner u v hu0 hv0 hu hv hv3
+    have hT' : IsT N u' v' w := ⟨hu'0, hv'0, hw0, hu', hv', hw, hv'3, hw3, by linarith⟩
+    rcases hcase with hne | ⟨_, e1, e2⟩
+    · exfalso
+      exact hg' u' v' w hT' hw1 hw2 (Or.inl (by omega))
+    · have e1' : (u + v) / 2 = u' := by omega
+      have e2' : (3 * u - v) / 2 = v' := by omega
+      rw [e1', e2']
+      refine ⟨hT', by omega, ?_, hw1, hw2⟩
+      by_contra hle
+      exact hg' u' v' w hT' hw1 hw2 (Or.inr (by omega))
+  have highB : ∀ u v w, (IsT N u v w ∧ v % 3 = 1 ∧ 1 < v ∧ w % 3 = 1 ∧ 1 < w) →
+      (IsT N ((u + w) / 2) v ((3 * u - w) / 2) ∧ v % 3 = 1 ∧ 1 < v ∧
+        ((3 * u - w) / 2) % 3 = 1 ∧ 1 < (3 * u - w) / 2) := by
+    rintro u v w ⟨hT, hv1, hv2, hw1, hw2⟩
+    obtain ⟨hT', a1, a2, a3, a4⟩ := highA u w v ⟨hT.swap, hw1, hw2, hv1, hv2⟩
+    exact ⟨hT'.swap, a3, a4, a1, a2⟩
+  have hN0 : ∀ u v w, IsT N u v w →
+      -((N.toNat : ℕ) : ℤ) ≤ u ∧ u ≤ (N.toNat : ℕ) ∧ -((N.toNat : ℕ) : ℤ) ≤ v ∧
+        v ≤ (N.toNat : ℕ) ∧ -((N.toNat : ℕ) : ℤ) ≤ w ∧ w ≤ (N.toNat : ℕ) := by
+    rintro u v w ⟨hu0, hv0, hw0, -, -, -, -, -, heq⟩
+    have h1 : u ≤ N := by nlinarith
+    have h2 : v ≤ N := by nlinarith
+    have h3 : w ≤ N := by nlinarith
+    omega
+  obtain ⟨hu0, hv0, hw0, hu, hv, hw, hv3, hw3, heq⟩ := h
+  have hT : IsT N u v w := ⟨hu0, hv0, hw0, hu, hv, hw, hv3, hw3, heq⟩
+  by_cases hvh : v % 3 = 1 ∧ 1 < v
+  · by_cases hwh : w % 3 = 1 ∧ 1 < w
+    · exact hnd (orbitT (fun u v w => IsT N u v w ∧ v % 3 = 1 ∧ 1 < v ∧ w % 3 = 1 ∧ 1 < w)
+        N.toNat (fun _ _ _ h' => hN0 _ _ _ h'.1)
+        (fun _ _ _ h' => ⟨h'.1.2.2.2.1, h'.1.2.2.2.2.1, h'.1.2.2.2.2.2.1⟩) highA highB
+        ⟨hT, hvh.1, hvh.2, hwh.1, hwh.2⟩)
+    · exact hg u v w hT hvh.1 hvh.2 (by omega)
+  · by_cases hwh : w % 3 = 1 ∧ 1 < w
+    · exact hg' u v w hT hwh.1 hwh.2 (by omega)
+    · have hx : v % 3 = 2 ∨ v = 1 := by omega
+      have hy : w % 3 = 2 ∨ w = 1 := by omega
+      rcases hx with hx | rfl <;> rcases hy with hy | rfl
+      · exact hnd (hlowdiag u v w ⟨hu0, by omega, by omega, hu, hv, hw, hx, hy, heq⟩)
+      · have := hlowdiag u v (-1) ⟨hu0, by omega, by norm_num, hu, hv, by norm_num, hx,
+          by norm_num, by linear_combination heq⟩
+        omega
+      · have := hlowdiag u (-1) w ⟨hu0, by norm_num, by omega, hu, by norm_num, hw,
+          by norm_num, hy, by linear_combination heq⟩
+        omega
+      · have := hlowdiag u (-1) (-1) ⟨hu0, by norm_num, by norm_num, hu, by norm_num,
+          by norm_num, by norm_num, by norm_num, by linear_combination heq⟩
+        omega
+
+/-! ## The tuples `(3,7,1,1,1,1)`, `(3,7,2,2,2,0)` and `(3,7,3,-1,1,1)` (Theorem 1.5) -/
+
+theorem even_37 (x : ℕ) : Even (x * (3 * x + 7)) := by
+  rcases Nat.even_or_odd x with h | h
+  · exact Nat.even_mul.mpr (Or.inl h)
+  · refine Nat.even_mul.mpr (Or.inr ?_)
+    obtain ⟨k, rfl⟩ := h
+    exact ⟨3 * k + 5, by omega⟩
+
+theorem repr_p7 (n : ℕ) {v a b : ℤ} (h : IsS (24 * n + 55) v a b) (hv : v % 3 = 1)
+    (hv1 : 1 < v) :
+    ∃ x y z : ℕ, n = x * (3 * x + 7) / 2 + y * (y + 1) / 2 + z * (z + 1) / 2 := by
+  obtain ⟨hv0, ha0, hb0, hv2, ha2, hb2, -, heq⟩ := h
+  obtain ⟨x, hx⟩ : ∃ x : ℕ, v = 6 * x + 7 := ⟨((v - 7) / 6).toNat, by omega⟩
+  obtain ⟨y, hy⟩ : ∃ y : ℕ, a = 2 * y + 1 := ⟨((a - 1) / 2).toNat, by omega⟩
+  obtain ⟨z, hz⟩ : ∃ z : ℕ, b = 2 * z + 1 := ⟨((b - 1) / 2).toNat, by omega⟩
+  subst hx hy hz
+  have h24 : (24 : ℤ) * n = 12 * (x * (3 * x + 7)) + 12 * (y * (y + 1)) + 12 * (z * (z + 1)) := by
+    linear_combination (-1 : ℤ) * heq
+  have hN : 2 * n = x * (3 * x + 7) + y * (y + 1) + z * (z + 1) := by
+    zify
+    linarith
+  obtain ⟨X, hX⟩ := even_37 x
+  obtain ⟨Y, hY⟩ := Nat.even_mul_succ_self y
+  obtain ⟨Z, hZ⟩ := Nat.even_mul_succ_self z
+  refine ⟨x, y, z, ?_⟩
+  rw [hX, hY, hZ] at hN ⊢
+  omega
+
+/-- The tuple `(3,7,1,1,1,1)`: every natural number is `x(3x+7)/2 + y(y+1)/2 + z(z+1)/2`. -/
+theorem tuple_3_7_1_1_1_1 (hP : PrimRep133) (n : ℕ) :
+    ∃ x y z : ℕ, n = x * (3 * x + 7) / 2 + y * (y + 1) / 2 + z * (z + 1) / 2 := by
+  obtain ⟨v, a, b, heq, hprim⟩ := hP (24 * n + 55) (by omega) (by omega)
+  obtain ⟨v', a', b', hS, hnd⟩ := seedS (N := 24 * n + 55) (by omega) (by omega) heq hprim
+  obtain ⟨v'', a'', b'', hS', h1, h2⟩ := exists_residue1_gt hS hnd (by omega) (by omega)
+  exact repr_p7 n hS' h1 h2
+
+/-- The tuple `(3,7,2,2,2,0)`: every natural number is `x(3x+7)/2 + y(y+1) + z²`. -/
+theorem tuple_3_7_2_2_2_0 (hP : PrimRep133) (n : ℕ) :
+    ∃ x y z : ℕ, n = x * (3 * x + 7) / 2 + y * (y + 1) + z ^ 2 := by
+  obtain ⟨x, y, z, h⟩ := tuple_3_7_1_1_1_1 hP n
+  obtain ⟨r, s, hrs⟩ := two_tri_eq y z
+  exact ⟨x, r, s, by omega⟩
+
+theorem repr_p7_mixed (n : ℕ) {u v w : ℤ} (h : IsT (24 * n + 53) u v w) (hv : v % 3 = 1)
+    (hv1 : 1 < v) (hw : w % 3 = 2 ∨ w = 1) :
+    ∃ x y z : ℕ, n = x * (3 * x + 7) / 2 + y * (3 * y - 1) / 2 + z * (z + 1) / 2 := by
+  obtain ⟨hu0, hv0, hw0, hu2, hv2, hw2, -, -, heq⟩ := h
+  obtain ⟨x, hx⟩ : ∃ x : ℕ, v = 6 * x + 7 := ⟨((v - 7) / 6).toNat, by omega⟩
+  obtain ⟨z, hz⟩ : ∃ z : ℕ, u = 2 * z + 1 := ⟨((u - 1) / 2).toNat, by omega⟩
+  rcases hw with hw | rfl
+  · obtain ⟨y, hy⟩ : ∃ y : ℕ, w = 6 * y - 1 := ⟨((w + 1) / 6).toNat, by omega⟩
+    have hy1 : 1 ≤ y := by omega
+    subst hx hy hz
+    have h24 : (24 : ℤ) * n =
+        12 * (x * (3 * x + 7)) + 12 * (y * (3 * y - 1)) + 12 * (z * (z + 1)) := by
+      linear_combination (-1 : ℤ) * heq
+    have hN : 2 * n = x * (3 * x + 7) + y * (3 * y - 1) + z * (z + 1) := by
+      zify [show 1 ≤ 3 * y by omega]
+      linarith
+    obtain ⟨X, hX⟩ := even_37 x
+    obtain ⟨Y, hY⟩ := even_pent y
+    obtain ⟨Z, hZ⟩ := Nat.even_mul_succ_self z
+    refine ⟨x, y, z, ?_⟩
+    rw [hX, hY, hZ] at hN ⊢
+    omega
+  · subst hx hz
+    have h24 : (24 : ℤ) * n = 12 * (x * (3 * x + 7)) + 12 * (z * (z + 1)) := by
+      linear_combination (-1 : ℤ) * heq
+    have hN : 2 * n = x * (3 * x + 7) + z * (z + 1) := by
+      zify
+      linarith
+    obtain ⟨X, hX⟩ := even_37 x
+    obtain ⟨Z, hZ⟩ := Nat.even_mul_succ_self z
+    refine ⟨x, 0, z, ?_⟩
+    rw [hX, hZ] at hN ⊢
+    omega
+
+/-- The tuple `(3,7,3,-1,1,1)`: every natural number is `x(3x+7)/2 + y(3y-1)/2 + z(z+1)/2`. -/
+theorem tuple_3_7_3_m1_1_1 (hP : PrimRep113) (n : ℕ) :
+    ∃ x y z : ℕ, n = x * (3 * x + 7) / 2 + y * (3 * y - 1) / 2 + z * (z + 1) / 2 := by
+  obtain ⟨u, v, w, heq, hprim⟩ := hP (24 * n + 53) (by omega) (by omega)
+  obtain ⟨u', v', w', hT, hnd⟩ := seedT (N := 24 * n + 53) (by omega) (by omega) heq hprim
+  obtain ⟨u'', v'', w'', hT', h1, h2, h3⟩ := exists_high_low hT hnd (by omega) (by omega)
+  exact repr_p7_mixed n hT' h1 h2 h3
+
 end TriPent
 
 #print axioms TriPent.exists_other_residue
@@ -1534,3 +2029,8 @@ end TriPent
 #print axioms TriPent.tuple_3_1_2_2_2_0
 #print axioms TriPent.tuple_3_5_2_2_2_0
 #print axioms TriPent.tuple_3_5_3_1_1_1
+#print axioms TriPent.exists_residue1_gt
+#print axioms TriPent.exists_high_low
+#print axioms TriPent.tuple_3_7_1_1_1_1
+#print axioms TriPent.tuple_3_7_2_2_2_0
+#print axioms TriPent.tuple_3_7_3_m1_1_1
