@@ -5,3 +5,5 @@
 check/thmAB
 email-draft*.md
 .DS_Store
+lean/Scratch.lean
+lean/*.part
