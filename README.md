@@ -50,11 +50,13 @@ Corollary 1.3, including the 2468 small cases, which the kernel checks from an e
 ## Classical input
 
 Proposition 4.1 (primitive representation by `x^2+y^2+3z^2` and `x^2+3y^2+3z^2`) rests on the
-local-global principle for a genus and on class number one. The journal references
-(Jones-Pall, Brandt-Intrau, Lorch-Kirschmer, Jagy-Kaplansky-Schiemann) and O'Meara 81:14 and
-102:5 were checked against bibliographic records and citing papers on 2026-11-26. The chapter
-and theorem numbers in Cassels (Ch. 9 Thm 1.3, Ch. 12) and O'Meara 92 were not checked against
-the books themselves; this is still to do before submission.
+local-global principle for a genus and on class number one. The references were checked on 2026-11-26 against
+bibliographic records and against the way other papers cite the same places: the four journal
+references; O'Meara 81:14, 92:2 and 102:5; Cassels p. 129 (representation by a genus, cited so
+by Wu and Sun, arXiv:1710.08763) and Cassels Chapter 12 (Minkowski reduction). Not checked
+against the book itself: that the bound `g11*g22*g33 <= 2D` for reduced ternary forms is stated
+in Cassels Chapter 12 (the bound is classical; `check/classnum.py` confirms the class numbers
+independently).
 
 ## Not covered
 
