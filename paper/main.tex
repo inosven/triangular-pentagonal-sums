@@ -1,0 +1,658 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\pb}{\bar p_5}
+\newcommand{\Tr}{T}
+
+\title[Two triangular numbers and a pentagonal number]{Every natural number is a sum of two triangular numbers and a pentagonal number}
+\author{Quan Sun}
+\date{\today}
+\subjclass[2020]{Primary 11E25; Secondary 11D85, 11E20, 11P99}
+\keywords{Triangular numbers, pentagonal numbers, universal sums, ternary quadratic forms, Eisenstein integers}
+
+\begin{document}
+
+\begin{abstract}
+We prove that every nonnegative integer can be written as
+$x(x+1)/2+y(y+1)/2+z(3z-1)/2$ with nonnegative integers $x,y,z$.
+This confirms a conjecture of Zhi-Wei Sun from 2009.
+More generally, let $P(x)$ be one of $x(3x-1)/2$, $x(3x+1)/2$, $x(3x+5)/2$ and let $d\ge 1$ be odd.
+We show that every nonnegative integer has the form $P(x)+y(y+d)/2+z(z+1)/2$ with nonnegative integers $x,y,z$
+whenever $d\le 17$, $d\le 7$, $d\le 3$ respectively; by a result of Z.-W. Sun these bounds cannot be improved.
+We also show that every nonnegative integer is the sum of a triangular number,
+a pentagonal number $y(3y-1)/2$ and a second pentagonal number $z(3z+1)/2$ with nonnegative $y,z$.
+Altogether this settles twenty of the $407$ conjectural universal tuples over $\N$ listed by Z.-W. Sun in 2020.
+The proof starts from a primitive representation by $x^2+y^2+3z^2$ or $x^2+3y^2+3z^2$, which the classical
+theory of genera provides. The new part is elementary: multiplication by a cube root of unity in the ring of
+Eisenstein integers moves between representations, and a rotation of infinite order shows that along these moves
+the sign condition behind the word ``nonnegative'' is eventually met.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $\N=\{0,1,2,\dots\}$. The triangular numbers are $\Tr(x)=x(x+1)/2$ $(x\in\N)$,
+the pentagonal numbers are $p_5(x)=x(3x-1)/2$ $(x\in\N)$, and the numbers
+$\pb(x)=p_5(-x)=x(3x+1)/2$ $(x\in\N)$ are called second pentagonal numbers.
+More generally $p_m(x)=(m-2)x(x-1)/2+x$ denotes the $m$-gonal numbers.
+Following Z.-W. Sun \cite{S20}, for integers $k\ge 1$ and $l>-k$ with $k\equiv l\pmod 2$ put
+\[
+\psi_{k,l}(x)=\frac{x(kx+l)}{2},
+\]
+so that $\Tr=\psi_{1,1}$, $p_5=\psi_{3,-1}$ and $\pb=\psi_{3,1}$.
+A tuple $(k_1,l_1,k_2,l_2,k_3,l_3)$ is called \emph{universal over $\N$} if every $n\in\N$ can be written as
+$\psi_{k_1,l_1}(x)+\psi_{k_2,l_2}(y)+\psi_{k_3,l_3}(z)$ with $x,y,z\in\N$, and \emph{universal over $\Z$}
+if this holds with $x,y,z\in\Z$.
+
+Universality over $\Z$ is a question about the integers represented by a ternary quadratic form
+under congruence conditions, and a large part of the theory is available for it.
+Universality over $\N$ adds sign conditions, which are not congruence conditions, and is much harder.
+In \cite{S15} Z.-W. Sun showed that if $p_i+p_j+p_k$ $(3\le i\le j\le k,\ k\ge 5)$ is universal over $\N$,
+then $(i,j,k)$ is one of $31$ explicit triples, and conjectured \cite[Conjecture~1.10]{S15}
+that all $31$ sums are universal over $\N$; a second list of $64$ sums $ap_i+bp_j+cp_k$ is the subject of
+\cite[Conjecture~1.13]{S15}. In \cite{S20} he showed that a universal tuple over $\N$ of a certain general shape must be one of $473$ candidates, proved $56$
+of them universal over $\N$, and conjectured the same for the remaining $10+407$
+\cite[Conjectures~1.2 and~1.5]{S20}. According to \cite{S20}, at that time none of the $95$ sums of \cite{S15}
+had been proved universal over $\N$.
+In 2026 Cao, Guo, Qiu, Feng and Gao \cite{CGQFG} proved the tuple $(5,1,3,1,1,1)$ universal over $\N$.
+We are not aware of a proof of any of the statements below in the literature.
+
+Our first result settles the triple $(3,3,5)$ of \cite[Conjecture~1.10]{S15}.
+
+\begin{theorem}\label{thm:main}
+Every $n\in\N$ can be written as
+\[
+n=\frac{x(x+1)}{2}+\frac{y(y+1)}{2}+\frac{z(3z-1)}{2}\qquad\text{with } x,y,z\in\N .
+\]
+If $n\ge 1$, one can moreover take $z\ge 1$.
+\end{theorem}
+
+Theorem~\ref{thm:main} is a special case of the following result on three families of tuples.
+
+\begin{theorem}\label{thm:family}
+Let $d$ be a positive odd integer.
+\begin{enumerate}
+\item[(i)] If $d\le 17$, the tuple $(3,-1,1,d,1,1)$ is universal over $\N$.
+\item[(ii)] If $d\le 7$, the tuple $(3,1,1,d,1,1)$ is universal over $\N$.
+\item[(iii)] If $d\le 3$, the tuple $(3,5,1,d,1,1)$ is universal over $\N$.
+\end{enumerate}
+In each case the tuple is not universal over $\N$ for larger odd $d$.
+\end{theorem}
+
+Thus, for instance, every $n\in\N$ is of the form $x(3x-1)/2+y(y+17)/2+z(z+1)/2$ with $x,y,z\in\N$,
+while $9$ is not of the form $x(3x-1)/2+y(y+19)/2+z(z+1)/2$.
+The last sentence of Theorem~\ref{thm:family} is not new: it is contained in \cite[Theorem~1.4(ii)]{S20},
+and we include the one-line verification only for completeness.
+The fifteen tuples of Theorem~\ref{thm:family} are exactly the tuples of these three shapes in the list
+\cite[Appendix]{S20}.
+
+Since $\{\Tr(y)+\Tr(z):y,z\in\N\}=\{y(y+1)+z^2:y,z\in\N\}$ (see Lemma~\ref{lem:TT}), the case $d=1$ gives:
+
+\begin{corollary}\label{cor:square}
+The tuples $(3,-1,2,2,2,0)$, $(3,1,2,2,2,0)$ and $(3,5,2,2,2,0)$ are universal over $\N$.
+In particular $2p_3+p_4+p_5$ is universal over $\N$: every $n\in\N$ can be written as
+$x(x+1)+y^2+z(3z-1)/2$ with $x,y,z\in\N$.
+\end{corollary}
+
+The sum $2p_3+p_4+p_5$ is one of the $64$ sums of \cite[Conjecture~1.13]{S15}.
+Our third result concerns one triangular number and two pentagonal numbers of different kinds.
+
+\begin{theorem}\label{thm:mixed}
+Every $n\in\N$ can be written as
+\[
+n=\frac{x(x+1)}{2}+\frac{y(3y-1)}{2}+\frac{z(3z+1)}{2}\qquad\text{with } x,y,z\in\N .
+\]
+If $n\ge 1$, one can moreover take $y\ge 1$.
+Consequently the two tuples $(3,1,3,-1,1,1)$ and $(3,5,3,1,1,1)$ are universal over $\N$.
+\end{theorem}
+
+The first assertion of Theorem~\ref{thm:mixed} was conjectured by Z.-W. Sun in the OEIS entry A254574 \cite{OEIS}.
+Theorems~\ref{thm:family} and~\ref{thm:mixed} and Corollary~\ref{cor:square} together settle
+$15+3+2=20$ of the $407$ tuples of \cite[Conjecture~1.5]{S20}.
+
+\subsection*{Method}
+The identities $24\,\Tr(x)+3=3(2x+1)^2$, $24\,p_5(z)+1=(6z-1)^2$ and $24\,\pb(z)+1=(6z+1)^2$
+turn Theorem~\ref{thm:main} into the statement that for every $n$ the equation
+\begin{equation}\label{eq:intro}
+24n+7=v^2+3a^2+3b^2
+\end{equation}
+has a solution in odd positive integers with $v\equiv 5\pmod 6$ or $v=1$.
+Solutions in odd integers with $3\nmid v$ exist by the theory of ternary forms;
+the difficulty is the residue of $|v|$ modulo $6$, that is, the sign of $v$ once $v$ is normalised by $v\equiv 1\pmod 3$.
+
+The binary form $3a^2+v^2$ is four times the norm of $(v+a\sqrt{-3})/2$ in the ring $\Z[\omega]$
+of Eisenstein integers, and multiplication by a cube root of unity produces from an odd pair $(a,v)$ exactly one
+other odd pair $(a',v')$ with the same norm (Lemma~\ref{lem:partner}).
+This move is not new: it is used for parity conditions in \cite[Lemma~3.2 and Theorem~1.7(iii)]{S15},
+and it is one of the three moves of \cite[Lemmas~8 and~9]{CGQFG}.
+The move either changes the residue of $v$ modulo $3$, or it is one explicit linear map $A$.
+The same holds in the plane of $(b,v)$, with a linear map $B$.
+What we add is the following observation.
+If the residue of $v$ never changed along the alternating sequence of moves, the representations
+$(BA)^j s_0$ $(j\ge 0)$ would all be integral and, being finite in number, periodic.
+But $BA$ is a rotation of infinite order whose axis is the line $v=a=b$, and a $2$-adic argument
+shows that only points of the axis have an integral two-sided orbit (Lemma~\ref{lem:2adic}).
+Hence the residue changes, unless the starting point is $(k,k,k)$.
+The remaining input is a starting point off the axis, which is supplied by the fact that
+$x^2+3y^2+3z^2$ represents $24n+7$ primitively.
+The side conditions $y(y+d)/2$ with $d>1$ are handled by a second, simpler observation:
+when $v$ is large compared with $a$ and $b$, two consecutive moves both change the residue of $v$
+and make $a$ large (Lemma~\ref{lem:large}); this leaves finitely many $n$, at most $779$, which are checked directly.
+
+Excluding a periodic orbit of a rational isometry by showing that the relevant eigenvalues are not roots of unity
+is also done in \cite[Lemma~6]{CGQFG}, there in order to pass from one class of a genus to the other.
+In \cite{CGQFG} two independent sign conditions have to be met, and the argument ends with a computer-verified finite cover of a cone.
+In the cases treated here only one binary condition is in play, and the periodicity argument settles it directly.
+
+\subsection*{Organisation}
+Section~\ref{sec:partner} introduces the partner map.
+Section~\ref{sec:descent} contains the two theorems on changing the residue and the lemma for large $v$.
+Section~\ref{sec:seed} supplies primitive representations.
+The theorems are proved in Section~\ref{sec:proofs}, and Section~\ref{sec:remarks} contains remarks on the scope of the method
+and on the accompanying computations.
+
+\section{The partner map}\label{sec:partner}
+
+Let
+\[
+\cP=\{(u,v)\in\Z^2:\ u,v>0,\ u,v \text{ odd},\ 3\nmid v\}.
+\]
+
+\begin{definition}\label{def:partner}
+For $(u,v)\in\cP$ define $\varphi(u,v)=(u',v')$ by
+\[
+(u',v')=
+\begin{cases}
+\bigl(\tfrac{u+v}{2},\ \tfrac{3u-v}{2}\bigr) & \text{if } u\equiv v\pmod 4 \text{ and } v<3u,\qquad \text{(case I)}\\[4pt]
+\bigl(\tfrac{u+v}{2},\ \tfrac{v-3u}{2}\bigr) & \text{if } u\equiv v\pmod 4 \text{ and } v>3u,\qquad \text{(case II)}\\[4pt]
+\bigl(\tfrac{|u-v|}{2},\ \tfrac{3u+v}{2}\bigr) & \text{if } u\not\equiv v\pmod 4.\qquad\qquad\qquad\ \ \text{(case III)}
+\end{cases}
+\]
+The case $v=3u$ does not occur since $3\nmid v$.
+\end{definition}
+
+\begin{lemma}\label{lem:partner}
+Let $(u,v)\in\cP$ and $(u',v')=\varphi(u,v)$. Then
+\begin{enumerate}
+\item[(a)] $(u',v')\in\cP$ and $3u'^2+v'^2=3u^2+v^2$;
+\item[(b)] $v'\equiv v\pmod 3$ in case~I, and $v'\equiv -v\pmod 3$ in cases~II and~III;
+\item[(c)] $\varphi(u',v')=(u,v)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For either choice of sign,
+\[
+3\Bigl(\frac{u\pm v}{2}\Bigr)^2+\Bigl(\frac{3u\mp v}{2}\Bigr)^2=\frac{12u^2+4v^2}{4}=3u^2+v^2 .
+\]
+Since $u$ and $v$ are odd, $u\equiv v\pmod 4$ or $u\equiv -v\pmod 4$.
+If $u\equiv v\pmod 4$, then $u+v\equiv 2u\equiv 2\pmod 4$ and $3u-v\equiv 2u\equiv 2\pmod 4$,
+so $(u+v)/2$ and $|3u-v|/2$ are odd; they are positive because $v\ne 3u$.
+If $u\equiv -v\pmod 4$, then $u-v\equiv 2u\equiv 2\pmod 4$ and $3u+v\equiv 2u\equiv 2\pmod 4$,
+so $|u-v|/2$ and $(3u+v)/2$ are odd and positive.
+Finally $2v'\equiv \pm v\pmod 3$ shows $3\nmid v'$.
+
+(b) As $2^{-1}\equiv -1\pmod 3$, we get $v'=(3u-v)/2\equiv v$ in case~I,
+$v'=(v-3u)/2\equiv -v$ in case~II and $v'=(3u+v)/2\equiv -v$ in case~III.
+
+(c) In case~I we have $u'+v'=2u\equiv 2\pmod 4$, so $u'\equiv v'\pmod 4$, and
+$3u'-v'=2v>0$; hence $(u',v')$ is in case~I and $\varphi(u',v')=\bigl(\tfrac{u'+v'}{2},\tfrac{3u'-v'}{2}\bigr)=(u,v)$.
+In case~II we have $u'-v'=2u\equiv 2\pmod 4$, so $u'\not\equiv v'\pmod 4$, and
+$\varphi(u',v')=\bigl(\tfrac{|u'-v'|}{2},\tfrac{3u'+v'}{2}\bigr)=(u,v)$.
+In case~III suppose first $u>v$. Then $u'+v'=2u\equiv 2\pmod 4$, so $u'\equiv v'\pmod 4$, and
+$v'-3u'=2v>0$; hence $(u',v')$ is in case~II and
+$\varphi(u',v')=\bigl(\tfrac{u'+v'}{2},\tfrac{v'-3u'}{2}\bigr)=(u,v)$.
+If $u<v$, then $v'-u'=2u\equiv 2\pmod 4$, so $(u',v')$ is in case~III, and
+$\varphi(u',v')=\bigl(\tfrac{v'-u'}{2},\tfrac{3u'+v'}{2}\bigr)=(u,v)$.
+\end{proof}
+
+Part~(c) justifies the name ``partner'' but is not used in the proofs below.
+
+\begin{remark}\label{rem:eisenstein}
+Let $\omega=(-1+\sqrt{-3})/2$. For odd $u,v$ the number $\xi=(v+u\sqrt{-3})/2$ lies in $\Z[\omega]$ and has norm $(3u^2+v^2)/4$.
+Write $\omega^j\xi=(v_j+u_j\sqrt{-3})/2$ for $j=0,1,2$. Then exactly one of the pairs $(u_j,v_j)$ consists of even numbers and
+the other two consist of odd numbers, and $\varphi$ sends $(|u_j|,|v_j|)$ for one of the latter two to the same expression for the other.
+Moreover $v_0+v_1+v_2=0$ and $v_0\equiv v_1\equiv v_2\pmod 3$.
+The counting statement behind this picture is \cite[Lemma~3.2]{S15}.
+\end{remark}
+
+\section{Changing the residue}\label{sec:descent}
+
+For a positive integer $N$ let
+\begin{align*}
+\cS(N)&=\{(v,a,b)\in\Z^3:\ v,a,b>0 \text{ odd},\ 3\nmid v,\ v^2+3a^2+3b^2=N\},\\
+\cT(N)&=\{(u,v,w)\in\Z^3:\ u,v,w>0 \text{ odd},\ 3\nmid vw,\ 3u^2+v^2+w^2=N\}.
+\end{align*}
+Both sets are finite. We call a triple \emph{diagonal} if its three entries are equal.
+
+\begin{lemma}\label{lem:2adic}
+Let $M$ be one of the matrices
+\[
+M_1=\frac14\begin{pmatrix}5&-6\\ 6&-4\end{pmatrix},\qquad
+M_2=\frac14\begin{pmatrix}-3&-2\\ 2&-4\end{pmatrix}.
+\]
+Then $\det M=1$, and if $y\in\Z^2$ satisfies $M^jy\in\Z^2$ for all $j\in\Z$, then $y=0$.
+\end{lemma}
+
+\begin{proof}
+One checks $\det M_1=(-20+36)/16=1$ and $\det M_2=(12+4)/16=1$, so
+\[
+M_1^{-1}=\frac14\begin{pmatrix}-4&6\\ -6&5\end{pmatrix},\qquad
+M_2^{-1}=\frac14\begin{pmatrix}-4&2\\ -2&-3\end{pmatrix}.
+\]
+Let $\Lambda=\{y\in\Z^2: M^jy\in\Z^2 \text{ for all } j\in\Z\}$. This is a subgroup of $\Z^2$ with $M\Lambda=\Lambda$.
+We claim $\Lambda\subseteq 2\Z^2$. Let $y=(y_1,y_2)\in\Lambda$.
+
+For $M=M_1$: the first entry of $M_1^{-1}y$ is $(-4y_1+6y_2)/4$, so $y_2$ is even; the first entry of $M_1y$ is $(5y_1-6y_2)/4$,
+so $5y_1\equiv 6y_2\equiv 0\pmod 4$ and $y_1$ is even.
+
+For $M=M_2$: the second entry of $M_2y$ is $(2y_1-4y_2)/4$, so $y_1$ is even; the first entry of $M_2^{-1}y$ is $(-4y_1+2y_2)/4$, so $y_2$ is even.
+
+Now let $y\in\Lambda$. For every $j$ we have $M^jy\in\Lambda\subseteq 2\Z^2$, hence $M^j(y/2)\in\Z^2$, so $y/2\in\Lambda$.
+Thus $\Lambda\subseteq 2\Lambda$, and by induction $\Lambda\subseteq 2^m\Z^2$ for all $m$. Therefore $\Lambda=\{0\}$.
+\end{proof}
+
+\begin{theorem}\label{thm:A}
+Let $N$ be a positive integer. If $\cS(N)$ contains a triple that is not diagonal,
+then $\cS(N)$ contains a triple $(v,a,b)$ with $v\equiv 1\pmod 3$ and a triple $(v,a,b)$ with $v\equiv 2\pmod 3$.
+\end{theorem}
+
+\begin{proof}
+For $s=(v,a,b)\in\cS(N)$ put
+\[
+\alpha(s)=(v',a',b)\ \text{ with } (a',v')=\varphi(a,v),\qquad
+\beta(s)=(v'',a,b'')\ \text{ with } (b'',v'')=\varphi(b,v).
+\]
+By Lemma~\ref{lem:partner}(a), $\alpha$ and $\beta$ map $\cS(N)$ to itself.
+Let $s_0=(v_0,a_0,b_0)\in\cS(N)$ be not diagonal and define $s_i=(v_i,a_i,b_i)$ by
+$s_{i+1}=\alpha(s_i)$ for even $i$ and $s_{i+1}=\beta(s_i)$ for odd $i$.
+It suffices to show that $v_i\not\equiv v_0\pmod 3$ for some $i$.
+
+Suppose, on the contrary, that $v_i\equiv v_0\pmod 3$ for all $i\ge 0$.
+Since $3\nmid v_i$, Lemma~\ref{lem:partner}(b) shows that every step is in case~I, that is, $s_{i+1}=As_i$ for even $i$ and $s_{i+1}=Bs_i$ for odd $i$,
+where $A$ and $B$ are the linear maps
+\[
+A(v,a,b)=\Bigl(\frac{3a-v}{2},\ \frac{a+v}{2},\ b\Bigr),\qquad
+B(v,a,b)=\Bigl(\frac{3b-v}{2},\ a,\ \frac{b+v}{2}\Bigr).
+\]
+One checks $A^2=B^2=\mathrm{id}$, so $R=BA$ is invertible; explicitly
+\[
+R(v,a,b)=\Bigl(\frac{v-3a+6b}{4},\ \frac{v+a}{2},\ \frac{-v+3a+2b}{4}\Bigr).
+\]
+We have $s_{2j}=R^js_0$ for all $j\ge 0$. As $\cS(N)$ is finite, there are $0\le i<j$ with $R^is_0=R^js_0$,
+hence $R^rs_0=s_0$ with $r=j-i\ge 1$.
+Consequently $R^js_0\in\{s_0,Rs_0,\dots,R^{r-1}s_0\}\subseteq\Z^3$ for every $j\in\Z$.
+
+Let $\pi(v,a,b)=(a-v,\ b-v)$. A direct computation from the formula for $R$ gives $\pi\circ R=M_1\circ\pi$:
+indeed, writing $(y_1,y_2)=(a-v,b-v)$,
+\[
+\frac{v+a}{2}-\frac{v-3a+6b}{4}=\frac{5y_1-6y_2}{4},\qquad
+\frac{-v+3a+2b}{4}-\frac{v-3a+6b}{4}=\frac{6y_1-4y_2}{4}.
+\]
+Hence $y=\pi(s_0)\in\Z^2$ satisfies $M_1^jy=\pi(R^js_0)\in\Z^2$ for all $j\in\Z$, and Lemma~\ref{lem:2adic} gives $y=0$,
+that is, $a_0=v_0=b_0$. This contradicts the choice of $s_0$.
+\end{proof}
+
+\begin{theorem}\label{thm:B}
+Let $N$ be a positive integer. If $\cT(N)$ contains a triple that is not diagonal,
+then $\cT(N)$ contains a triple $(u,v,w)$ with $v\not\equiv w\pmod 3$.
+\end{theorem}
+
+\begin{proof}
+We use the letters $\alpha,\beta,A,B,R,\pi$ for the objects analogous to those in the previous proof.
+For $s=(u,v,w)\in\cT(N)$ put
+\[
+\alpha(s)=(u',v',w)\ \text{ with } (u',v')=\varphi(u,v),\qquad
+\beta(s)=(u'',v,w'')\ \text{ with } (u'',w'')=\varphi(u,w);
+\]
+these are maps $\cT(N)\to\cT(N)$ by Lemma~\ref{lem:partner}(a).
+Let $s_0\in\cT(N)$ be not diagonal and define $s_i=(u_i,v_i,w_i)$ by $s_{i+1}=\alpha(s_i)$ for even $i$ and $s_{i+1}=\beta(s_i)$ for odd $i$.
+Suppose that $v_i\equiv w_i\pmod 3$ for all $i\ge 0$.
+A step with $i$ even leaves $w$ unchanged, so $v_{i+1}\equiv w_{i+1}=w_i\equiv v_i\pmod 3$;
+as $3\nmid v_i$, Lemma~\ref{lem:partner}(b) shows that the step is in case~I. The same holds for odd $i$.
+Thus $s_{i+1}=As_i$ for even $i$ and $s_{i+1}=Bs_i$ for odd $i$, where now
+\[
+A(u,v,w)=\Bigl(\frac{u+v}{2},\ \frac{3u-v}{2},\ w\Bigr),\qquad
+B(u,v,w)=\Bigl(\frac{u+w}{2},\ v,\ \frac{3u-w}{2}\Bigr).
+\]
+Again $A^2=B^2=\mathrm{id}$, and with $R=BA$,
+\[
+R(u,v,w)=\Bigl(\frac{u+v+2w}{4},\ \frac{3u-v}{2},\ \frac{3u+3v-2w}{4}\Bigr).
+\]
+As in the proof of Theorem~\ref{thm:A}, finiteness of $\cT(N)$ gives $r\ge 1$ with $R^rs_0=s_0$, and $R^js_0\in\Z^3$ for all $j\in\Z$.
+Let $\pi(u,v,w)=(u-v,\ u-w)=(y_1,y_2)$. Then
+\[
+\frac{u+v+2w}{4}-\frac{3u-v}{2}=\frac{-3y_1-2y_2}{4},\qquad
+\frac{u+v+2w}{4}-\frac{3u+3v-2w}{4}=\frac{2y_1-4y_2}{4},
+\]
+so $\pi\circ R=M_2\circ\pi$. By Lemma~\ref{lem:2adic}, $\pi(s_0)=0$, so $s_0$ is diagonal, a contradiction.
+\end{proof}
+
+\begin{remark}\label{rem:rotation}
+With respect to the quadratic form in question, $A$ and $B$ are the reflections in the planes $a=v$ and $b=v$
+(respectively $u=v$ and $u=w$), and $R=BA$ is a rotation about the line spanned by $(1,1,1)$.
+Lemma~\ref{lem:2adic} can be replaced by the following argument: from $R^rs_0=s_0$ one gets $M^ry=y$ for $y=\pi(s_0)$;
+the characteristic polynomial of $M$ is $\lambda^2-(\operatorname{tr}M)\lambda+1$ with $\operatorname{tr}M_1=1/4$ and $\operatorname{tr}M_2=-7/4$,
+so the eigenvalues of $M$ are not algebraic integers, hence not roots of unity, and $M^r-1$ is invertible.
+We have kept Lemma~\ref{lem:2adic} because it only uses congruences modulo $4$.
+\end{remark}
+
+\begin{example}\label{ex:walk}
+Let $N=655=24\cdot 27+7$ and $s_0=(7,11,9)\in\cS(655)$, so $v_0\equiv 1\pmod 3$. The sequence of the proof is
+\[
+(7,11,9)\xrightarrow{\ \alpha,\ \mathrm{I}\ }(13,9,9)\xrightarrow{\ \beta,\ \mathrm{I}\ }(7,9,11)
+\xrightarrow{\ \alpha,\ \mathrm{III}\ }(17,1,11).
+\]
+The last triple has $v=17\equiv 5\pmod 6$, and $17=6\cdot 3-1$, $1=2\cdot 0+1$, $11=2\cdot 5+1$ give
+$27=\Tr(0)+\Tr(5)+p_5(3)$.
+\end{example}
+
+The next lemma deals with lower bounds on $a$.
+
+\begin{lemma}\label{lem:large}
+Let $s=(v,a,b)\in\cS(N)$ with $v>3a+6b$, and let $\alpha,\beta$ be as in the proof of Theorem~\ref{thm:A}.
+Then $\beta(\alpha(s))=(v^*,a^*,b^*)\in\cS(N)$ satisfies $v^*\equiv v\pmod 3$ and $a^*\ge (v-a)/2$.
+\end{lemma}
+
+\begin{proof}
+Since $v>3a$, the pair $(a,v)$ is in case~II or~III. Thus $\alpha(s)=(v',a',b)$ with $v'\equiv -v\pmod 3$,
+$a'\ge (v-a)/2$ and $v'\ge (v-3a)/2>3b$.
+Since $v'>3b$, the pair $(b,v')$ is in case~II or~III, so $\beta(\alpha(s))=(v^*,a',b^*)$ with $v^*\equiv -v'\equiv v\pmod 3$.
+\end{proof}
+
+\section{Primitive representations}\label{sec:seed}
+
+An integer solution of a ternary equation is called \emph{primitive} if its three entries have no common prime factor.
+
+\begin{proposition}\label{prop:classical}
+\begin{enumerate}
+\item[(a)] For every positive integer $N\equiv 7\pmod{24}$ the equation $v^2+3a^2+3b^2=N$ has a primitive solution $(v,a,b)\in\Z^3$.
+\item[(b)] For every positive integer $N\equiv 5\pmod{24}$ the equation $3u^2+v^2+w^2=N$ has a primitive solution $(u,v,w)\in\Z^3$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Let $f(x_1,x_2,x_3)=c_1x_1^2+c_2x_2^2+c_3x_3^2$ with $(c_1,c_2,c_3)=(1,3,3)$ in case (a) and $(c_1,c_2,c_3)=(1,1,3)$ in case (b),
+and let $L=\Z^3$ be the corresponding lattice in the quadratic space $(\Q^3,f)$.
+We use two classical facts.
+
+\emph{Fact 1.} Let $N$ be a positive integer. If for every prime $p$ there is $x_p\in\Z_p^3\setminus p\Z_p^3$ with $f(x_p)=N$,
+then there are a lattice $L'$ in the genus of $L$ and a primitive vector $x\in L'$ with $f(x)=N$.
+This is the primitive form of the local--global principle for representations by a genus;
+the non-primitive form is \cite[Chapter~9, Theorem~1.3]{Cassels}, see also \cite[\S 102]{OMeara}. We recall the argument.
+Since $f$ is positive definite and $N>0$, the form $f$ represents $N$ over $\R$, and by assumption over every $\Q_p$;
+by the Hasse--Minkowski theorem there is $x\in\Q^3$ with $f(x)=N$.
+By Witt's theorem there is, for each $p$, an isometry $\sigma_p$ of the quadratic space $(\Q_p^3,f)$ with $\sigma_p(x_p)=x$.
+For all but finitely many $p$ the vector $x$ is itself a primitive vector of $L_p=\Z_p^3$, and for these $p$ we take $x_p=x$ and $\sigma_p=\mathrm{id}$.
+There is a lattice $L'$ on $\Q^3$ with $L'_p=\sigma_p(L_p)$ for all $p$ \cite[81:14]{OMeara}. It lies in the genus of $L$,
+and $x$ is a primitive vector of $L'_p$ for every $p$, hence a primitive vector of $L'$.
+
+\emph{Fact 2.} The genus of $L$ consists of a single class.
+This is classical; see the tables \cite{BI}, or \cite{LK}, where all single-class genera of positive ternary lattices are determined
+(see also \cite{JKS,JP}). For the reader's convenience we indicate a direct verification.
+By the reduction theory of positive ternary forms \cite[Chapter~12]{Cassels},
+every positive definite ternary lattice with integral Gram matrix of determinant $D$ has a basis whose Gram matrix $(g_{ij})$ satisfies
+\[
+0<g_{11}\le g_{22}\le g_{33},\qquad 2|g_{12}|\le g_{11},\quad 2|g_{13}|\le g_{11},\quad 2|g_{23}|\le g_{22},\qquad g_{11}g_{22}g_{33}\le 2D.
+\]
+If $g_{11}=1$, then $g_{12}=g_{13}=0$ and the lattice is $\langle 1\rangle\perp K$ with $K$ a binary lattice of determinant $D$ whose Gram matrix satisfies
+$2|g_{23}|\le g_{22}\le g_{33}$; for $D=3$ this gives $y^2+3z^2$ and $2y^2+2yz+2z^2$, and for $D=9$ it gives $y^2+9z^2$, $2y^2+2yz+5z^2$ and $3y^2+3z^2$.
+If $g_{11}\ge 2$, then $g_{11}g_{22}g_{33}\ge 8$, which excludes $D=3$; for $D=9$ the diagonal is $(2,2,2)$, $(2,2,3)$, $(2,2,4)$ or $(2,3,3)$ with $|g_{ij}|\le 1$ for $i\ne j$, and
+\[
+\det(g_{ij})=g_{11}g_{22}g_{33}+2g_{12}g_{13}g_{23}-g_{11}g_{23}^2-g_{22}g_{13}^2-g_{33}g_{12}^2=9
+\]
+holds only for the diagonal $(2,2,3)$ with $g_{12}=\pm1$, $g_{13}=g_{23}=0$, that is, for $2x^2+2xy+2y^2+3z^2$.
+So there are two classes of determinant $3$, namely $x^2+y^2+3z^2$ and $x^2+2y^2+2yz+2z^2$, and four classes of determinant $9$, namely
+$x^2+y^2+9z^2$, $x^2+3y^2+3z^2$, $x^2+2y^2+2yz+5z^2$ and $2x^2+2xy+2y^2+3z^2$.
+Over $\Z_3$ these six forms are equivalent to
+$\langle 1,1\rangle\perp\langle 3\rangle$, $\langle 1,2\rangle\perp\langle 6\rangle$, and
+$\langle 1,1\rangle\perp\langle 9\rangle$, $\langle 1\rangle\perp\langle 3,3\rangle$, $\langle 1,2\rangle\perp\langle 18\rangle$, $\langle 2\rangle\perp\langle 3,6\rangle$ respectively.
+Two forms of the same determinant in this list either have Jordan components of different ranks, or unimodular components whose determinants $1$ and $2$ differ by a non-square unit;
+by the uniqueness of the Jordan type over $\Z_3$ \cite[\S 92]{OMeara} they are not equivalent over $\Z_3$.
+Hence each of the six forms is alone in its genus.
+
+It remains to verify the hypothesis of Fact~1.
+
+Let $p\ge 5$. If $N\equiv c_3\pmod p$, then $N/c_3$ is the square of a unit of $\Z_p$, and $f(0,0,x_3)=N$ has a solution with $x_3$ a unit.
+Otherwise the congruence $c_1x_1^2+c_2x_2^2\equiv N-c_3\pmod p$ has a solution, because each of the sets $\{c_1x_1^2\}$ and $\{N-c_3-c_2x_2^2\}$ has $(p+1)/2$ elements modulo $p$;
+this solution is not $(0,0)$, so by Hensel's lemma it lifts to $x_1,x_2\in\Z_p$ with $f(x_1,x_2,1)=N$.
+
+Let $p=3$. In case (a), $N\equiv 1\pmod 3$ is the square of a unit, so $f(x_1,0,0)=x_1^2=N$ is solvable.
+In case (b), $N-1\equiv 1\pmod 3$ is the square of a unit, so $f(x_1,1,0)=x_1^2+1=N$ is solvable.
+
+Let $p=2$. In case (a), $N-6\equiv 1\pmod 8$ is the square of a unit, so $f(x_1,1,1)=x_1^2+6=N$ is solvable.
+In case (b), $N-4\equiv 1\pmod 8$ is the square of a unit, so $f(x_1,1,1)=x_1^2+4=N$ is solvable.
+
+In all cases the solution has a unit entry. By Fact~1 there are $L'$ in the genus of $L$ and a primitive $x\in L'$ with $f(x)=N$,
+and by Fact~2 there is an isometry $L'\to L$; it maps $x$ to a primitive vector of $L=\Z^3$, which is the required solution
+(in case (b) with $(x_1,x_2,x_3)=(v,w,u)$).
+\end{proof}
+
+\begin{lemma}\label{lem:seed}
+\begin{enumerate}
+\item[(a)] If $N\equiv 7\pmod{24}$ and $N>7$, then $\cS(N)$ contains a triple that is not diagonal.
+\item[(b)] If $N\equiv 5\pmod{24}$ and $N>5$, then $\cT(N)$ contains a triple that is not diagonal.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By Proposition~\ref{prop:classical}(a) there is a primitive solution of $v^2+3a^2+3b^2=N$; changing signs we may assume $v,a,b\ge 0$.
+As $N\equiv 1\pmod 3$, every solution has $3\nmid v$.
+Squares are congruent to $0$, $1$ or $4$ modulo $8$, and $N\equiv 7\pmod 8$.
+If $v$ is odd, then $3(a^2+b^2)\equiv 6$, so $a^2+b^2\equiv 2\pmod 8$ and $a,b$ are odd.
+If $v$ is even, then $3(a^2+b^2)\equiv 7-v^2$, so $a^2+b^2\equiv 5\pmod 8$ if $4\mid v$ and $a^2+b^2\equiv 1\pmod 8$ if $v\equiv 2\pmod 4$;
+hence exactly one of $a,b$ is even, and the even one is $\equiv 2\pmod 4$ if $4\mid v$ and divisible by $4$ if $v\equiv 2\pmod 4$.
+
+\emph{Case 1: $v,a,b$ are odd.} Then $(v,a,b)\in\cS(N)$. If it were diagonal, primitivity would give $v=a=b=1$ and $N=7$.
+
+\emph{Case 2: $v$ is even.} By the symmetry of the equation in $a$ and $b$ we may assume that $b$ is even. Then $v/2+b/2$ is odd. Put
+\[
+b_1=\frac{|b-v|}{2},\qquad v_1=\frac{3b+v}{2}.
+\]
+These are odd positive integers with $3b_1^2+v_1^2=3b^2+v^2$, so $(v_1,a,b_1)$ is a solution in odd positive integers and belongs to $\cS(N)$.
+Suppose $v_1=a=b_1=k$. Then $3b+v=2k$ and $|b-v|=2k$ with $b,v\ge 0$, which forces $b=0$ and $v=2k$.
+So $(v,a,b)=(2k,k,0)$, and primitivity gives $k=1$ and $N=7$.
+
+(b) By Proposition~\ref{prop:classical}(b) there is a primitive solution of $3u^2+v^2+w^2=N$ with $u,v,w\ge 0$.
+As $N\equiv 2\pmod 3$, every solution has $3\nmid vw$. Here $N\equiv 5\pmod 8$.
+If $u$ is odd, then $v^2+w^2\equiv 2\pmod 8$ and $v,w$ are odd.
+If $u$ is even, then $v^2+w^2\equiv 5\pmod 8$ if $4\mid u$ and $v^2+w^2\equiv 1\pmod 8$ if $u\equiv 2\pmod 4$;
+hence exactly one of $v,w$ is even, and $u/2$ plus half of the even one is odd.
+
+\emph{Case 1: $u,v,w$ are odd.} Then $(u,v,w)\in\cT(N)$, and it is not diagonal since it is primitive and $N>5$.
+
+\emph{Case 2: $u$ is even.} We may assume that $v$ is even. Put $u_1=|u-v|/2$ and $v_1=(3u+v)/2$.
+These are odd positive integers with $3u_1^2+v_1^2=3u^2+v^2$, so $(u_1,v_1,w)\in\cT(N)$.
+If $u_1=v_1=w=k$, then $3u+v=2k$ and $|u-v|=2k$ force $u=0$, $v=2k$, so $(u,v,w)=(0,2k,k)$ and $k=1$, $N=5$.
+\end{proof}
+
+\begin{remark}
+The passage from an even solution to an odd one in Case~2 is the move of \cite[Lemma~3.2]{S15}.
+Lemma~\ref{lem:seed} is the only place where primitivity is used, and it is needed only for $N=7k^2$ in (a) and $N=5k^2$ in (b):
+for such $N$ the solutions $k\cdot(\pm1,\pm1,\pm1)$, $k\cdot(\pm2,\pm1,0)$, $k\cdot(\pm 2,0,\pm 1)$
+(respectively $k\cdot(\pm1,\pm1,\pm1)$, $k\cdot(0,\pm2,\pm1)$, $k\cdot(0,\pm 1,\pm 2)$) lead to the diagonal triple $(k,k,k)$, which the maps $\alpha$ and $\beta$ fix.
+For all other $N$ the proof of Lemma~\ref{lem:seed} works with any integer solution, primitive or not.
+\end{remark}
+
+\section{Proofs of the theorems}\label{sec:proofs}
+
+For $k\ge 1$, $l>-k$, $k\equiv l\pmod 2$ and $x\in\N$ we have
+\begin{equation}\label{eq:square}
+8k\,\psi_{k,l}(x)+l^2=(2kx+l)^2 .
+\end{equation}
+
+\begin{lemma}\label{lem:reduce}
+Let $e\in\{-1,1,5\}$, let $d$ be a positive odd integer and $n\in\N$. Put
+\[
+N=24n+e^2+3d^2+3 .
+\]
+Then $N\equiv 7\pmod{24}$, and $n=\psi_{3,e}(x)+\psi_{1,d}(y)+\Tr(z)$ for some $x,y,z\in\N$
+if and only if there is $(v,a,b)\in\cS(N)$ with $\max\{a,b\}\ge d$ and
+\[
+\begin{cases}
+v\equiv 2\pmod 3 \ \text{ or } \ v=1 & \text{if } e=-1,\\
+v\equiv 1\pmod 3 & \text{if } e=1,\\
+v\equiv 2\pmod 3 & \text{if } e=5.
+\end{cases}
+\]
+\end{lemma}
+
+\begin{proof}
+As $d$ is odd, $3d^2\equiv 3\pmod{24}$, and $e^2\equiv 1\pmod{24}$; so $N\equiv 7\pmod{24}$.
+By \eqref{eq:square},
+\[
+24\bigl(\psi_{3,e}(x)+\psi_{1,d}(y)+\Tr(z)\bigr)+e^2+3d^2+3=(6x+e)^2+3(2y+d)^2+3(2z+1)^2 .
+\]
+If $n$ is represented, put $v=|6x+e|$, $a=2y+d$, $b=2z+1$. Then $(v,a,b)\in\cS(N)$, $a\ge d$, and
+$v=6x+1$ for $e=1$, $v=6x+5$ for $e=5$, while for $e=-1$ either $x=0$ and $v=1$, or $x\ge 1$ and $v=6x-1$.
+Conversely, let $(v,a,b)\in\cS(N)$ be as in the statement. The set $\cS(N)$ is symmetric in $a$ and $b$, so we may assume $a\ge d$.
+Put $y=(a-d)/2$ and $z=(b-1)/2$. As $v$ is odd, $v\equiv 1\pmod 3$ means $v\equiv 1\pmod 6$ and $v\equiv 2\pmod 3$ means $v\equiv 5\pmod 6$.
+Put $x=(v-1)/6$ if $e=1$; $x=(v-5)/6$ if $e=5$; and for $e=-1$ put $x=(v+1)/6$ if $v\equiv 5\pmod 6$ and $x=0$ if $v=1$.
+Then $x,y,z\in\N$, $(6x+e)^2=v^2$, and the displayed identity gives $n=\psi_{3,e}(x)+\psi_{1,d}(y)+\Tr(z)$.
+\end{proof}
+
+\begin{proposition}\label{prop:family}
+Let $e\in\{-1,1,5\}$, let $d$ be a positive odd integer, $n\in\N$ and $N=24n+e^2+3d^2+3$.
+If $d=1$, or if $N>87(d-2)^2$, then $n=\psi_{3,e}(x)+\psi_{1,d}(y)+\Tr(z)$ for some $x,y,z\in\N$.
+\end{proposition}
+
+\begin{proof}
+If $N=7$, then $e=\pm1$, $d=1$ and $n=0$, and $0=\psi_{3,e}(0)+\psi_{1,1}(0)+\Tr(0)$. Let $N>7$.
+Let $\rho=1$ if $e=1$ and $\rho=2$ if $e\in\{-1,5\}$.
+By Lemma~\ref{lem:seed}(a) and Theorem~\ref{thm:A} there is $s=(v,a,b)\in\cS(N)$ with $v\equiv \rho\pmod 3$.
+If $\max\{a,b\}\ge d$, we are done by Lemma~\ref{lem:reduce}; this is always the case when $d=1$.
+Otherwise $d\ge 3$ and $a,b\le K:=d-2$. If $N>87K^2$, then
+\[
+v^2=N-3a^2-3b^2>87K^2-6K^2=81K^2 ,
+\]
+so $v>9K\ge 3a+6b$. By Lemma~\ref{lem:large} there is $(v^*,a^*,b^*)\in\cS(N)$ with $v^*\equiv v\equiv \rho\pmod 3$ and
+$a^*\ge (v-a)/2>(9K-K)/2=4K\ge K+2=d$, and Lemma~\ref{lem:reduce} applies again.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:family}]
+\emph{Universality.} Let $(e,d)$ be one of the pairs with $e=-1$, $d\le 17$; $e=1$, $d\le 7$; $e=5$, $d\le 3$.
+By Proposition~\ref{prop:family} every $n$ with $24n+e^2+3d^2+3>87(d-2)^2$ is represented, and for $d=1$ every $n$ is.
+For $d\ge 3$ the remaining $n$ satisfy
+\[
+n\le \frac{87(d-2)^2-e^2-3d^2-3}{24}.
+\]
+There are twelve such pairs $(e,d)$, the bound is largest for $(e,d)=(-1,17)$, where it is $779$, and altogether $2468$ triples $(e,d,n)$ have to be treated.
+For each of them a representation $n=\psi_{3,e}(x)+\psi_{1,d}(y)+\Tr(z)$ with $x,y,z\in\N$ exists; it is found at once by trying all $x$ and $y$,
+and the list of these representations is part of the files accompanying this paper (see Section~\ref{sec:remarks}).
+
+\emph{Non-universality.} This is contained in \cite[Theorem~1.4(ii)]{S20}; here is a direct check.
+If $y\ge 1$ then $\psi_{1,d}(y)\ge (d+1)/2$.
+Let $e=-1$ and $d\ge 19$. Then $\psi_{1,d}(y)\ge 10$ for $y\ge 1$, so a representation of $9$ has $y=0$, and
+$9-p_5(x)\in\{9,8,4\}$ is not triangular. Hence $9$ is not represented.
+Let $e=1$ and $d\ge 9$. Then $\psi_{1,d}(y)\ge 5$ for $y\ge 1$, and $4-\pb(x)\in\{4,2\}$ is not triangular; so $4$ is not represented.
+Let $e=5$ and $d\ge 5$. Then $\psi_{1,d}(y)\ge 3$ for $y\ge 1$ and $\psi_{3,5}(x)\ge 4$ for $x\ge 1$, and $2$ is not triangular; so $2$ is not represented.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The first assertion is Theorem~\ref{thm:family}(i) for $d=1$.
+For the second, let $n\ge 1$. By Theorem~\ref{thm:family}(iii) for $d=1$ there are $x,y,z\in\N$ with
+$n-1=\psi_{3,5}(z)+\Tr(x)+\Tr(y)$, and $\psi_{3,5}(z)+1=(z+1)(3z+2)/2=p_5(z+1)$.
+\end{proof}
+
+\begin{lemma}\label{lem:TT}
+$\{\Tr(y)+\Tr(z):y,z\in\N\}=\{y(y+1)+z^2:y,z\in\N\}$.
+\end{lemma}
+
+\begin{proof}
+This is well known, see \cite[(1.5)]{S15}: if $y\ge z$ then
+$\Tr(y)+\Tr(z)=r(r+1)+s^2$ with $\{2r+1,2s\}=\{y+z+1,y-z\}$, and conversely
+$r(r+1)+s^2=\Tr(r+s)+\Tr(|r-s|-[r<s])$, where $[r<s]$ is $1$ if $r<s$ and $0$ otherwise.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:square}]
+By Theorem~\ref{thm:family} for $d=1$ and Lemma~\ref{lem:TT}, for $e\in\{-1,1,5\}$ every $n\in\N$ is of the form
+$\psi_{3,e}(x)+y(y+1)+z^2=\psi_{3,e}(x)+\psi_{2,2}(y)+\psi_{2,0}(z)$. For $e=-1$ this is $p_5(x)+2p_3(y)+p_4(z)$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:mixed}]
+Let $n\in\N$ and $N=24n+5$. By \eqref{eq:square},
+\[
+24\bigl(\Tr(x)+p_5(y)+\pb(z)\bigr)+5=3(2x+1)^2+(6y-1)^2+(6z+1)^2 .
+\]
+If $n=0$ take $x=y=z=0$. Let $n\ge 1$, so $N>5$.
+By Lemma~\ref{lem:seed}(b) and Theorem~\ref{thm:B} there is $(u,v,w)\in\cT(N)$ with $v\not\equiv w\pmod 3$.
+The set $\cT(N)$ is symmetric in $v$ and $w$, so we may assume $v\equiv 2$ and $w\equiv 1\pmod 3$, that is,
+$v\equiv 5$ and $w\equiv 1\pmod 6$. Then $x=(u-1)/2$, $y=(v+1)/6\ge 1$, $z=(w-1)/6$ are in $\N$ and
+$n=\Tr(x)+p_5(y)+\pb(z)$. This proves the first two assertions, and hence the universality of $(3,1,3,-1,1,1)$.
+Finally, for $m\in\N$ apply this to $n=m+1$: since $p_5(y)-1=(y-1)(3y+2)/2=\psi_{3,5}(y-1)$, we get
+$m=\psi_{3,5}(y-1)+\pb(z)+\Tr(x)$ with $y-1,z,x\in\N$. So $(3,5,3,1,1,1)$ is universal over $\N$.
+\end{proof}
+
+\section{Remarks}\label{sec:remarks}
+
+\subsection*{Computations}
+The only computation used in the proofs is the direct search in the proof of Theorem~\ref{thm:family}:
+$2468$ cases with $n\le 779$, which take a fraction of a second. The program and the resulting list of representations are in the accompanying files \cite{code}.
+Independently of the proofs, the statements of Theorems~\ref{thm:A} and~\ref{thm:B} were checked for every triple in
+$\cS(24n+7)$ and $\cT(24n+5)$ with $n<3\cdot 10^5$ (about $2.8\cdot 10^8$ and $3.2\cdot 10^8$ triples);
+the sequence $s_0,s_1,\dots$ of the proofs reached the required triple after at most $19$ steps.
+Fact~2 in the proof of Proposition~\ref{prop:classical} was confirmed by a machine enumeration of reduced forms, and Proposition~\ref{prop:classical} itself was checked for $N<1.4\cdot 10^6$.
+
+\subsection*{Scope of the method}
+Theorems~\ref{thm:A} and~\ref{thm:B} work because only one binary condition is in play:
+the residue of $v$ modulo $3$ in Theorem~\ref{thm:A}, and the equality of the residues of $v$ and $w$ in Theorem~\ref{thm:B}.
+The sum $p_3+p_5+p_5$ of one triangular and two pentagonal numbers of the same kind, which is also among the $31$ sums of
+\cite[Conjecture~1.10]{S15}, asks for a triple in $\cT(24n+5)$ with $v,w\in\{1\}\cup\{5,11,17,\dots\}$;
+this is not a consequence of Theorem~\ref{thm:B}, and we have no proof.
+The same applies to the tuple $(3,7,1,1,1,1)$ of \cite{S20}, which needs a triple in $\cS(24n+55)$ with $v\equiv 1\pmod 3$ and $v\ne 1$,
+and to the tuple $(3,1,3,-1,1,3)$, which needs a triple $(u,v,w)\in\cT(24n+29)$ with $u\ge 3$, $v\equiv 1\pmod 3$ and $w\in\{1\}\cup\{5,11,17,\dots\}$:
+Lemma~\ref{lem:large} has no direct analogue for a lower bound on $u$ in $\cT(N)$.
+
+\subsection*{Acknowledgements}
+The proofs in this paper were found and written with the assistance of an AI system (Claude, Anthropic),
+which also wrote the verification programs. The author is responsible for the content.
+
+\begin{thebibliography}{99}
+
+\bibitem{BI} H. Brandt and O. Intrau, \emph{Tabellen reduzierter positiver tern\"arer quadratischer Formen},
+Abh. S\"achs. Akad. Wiss. Math.-Nat. Kl. \textbf{45} (1958), no.~4.
+
+\bibitem{CGQFG} Y. Cao, D. Guo, R. Qiu, R. Feng and X.-S. Gao, \emph{Every nonnegative integer is a sum of a triangular, a pentagonal, and a heptagonal number},
+preprint, arXiv:2606.26035, 2026.
+
+\bibitem{Cassels} J. W. S. Cassels, \emph{Rational Quadratic Forms}, Academic Press, London, 1978.
+
+\bibitem{code} Q. Sun, \emph{Verification programs and data for this paper}, ancillary files.
+
+\bibitem{JKS} W. C. Jagy, I. Kaplansky and A. Schiemann, \emph{There are 913 regular ternary forms}, Mathematika \textbf{44} (1997), 332--341.
+
+\bibitem{JP} B. W. Jones and G. Pall, \emph{Regular and semi-regular positive ternary quadratic forms}, Acta Math. \textbf{70} (1939), 165--191.
+
+\bibitem{LK} D. Lorch and M. Kirschmer, \emph{Single-class genera of positive integral lattices}, LMS J. Comput. Math. \textbf{16} (2013), 172--186.
+
+\bibitem{OEIS} OEIS Foundation Inc., \emph{The On-Line Encyclopedia of Integer Sequences}, entry A254574, \url{https://oeis.org/A254574}.
+
+\bibitem{OMeara} O. T. O'Meara, \emph{Introduction to Quadratic Forms}, Springer, Berlin, 1963.
+
+\bibitem{S15} Z.-W. Sun, \emph{On universal sums of polygonal numbers}, Sci. China Math. \textbf{58} (2015), 1367--1396.
+
+\bibitem{S20} Z.-W. Sun, \emph{Universal sums of three quadratic polynomials}, Sci. China Math. \textbf{63} (2020), 501--520.
+
+\end{thebibliography}
+
+\end{document}

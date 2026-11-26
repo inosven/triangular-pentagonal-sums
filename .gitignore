@@ -1,0 +1,7 @@
+.lake/
+*.aux
+*.log
+*.out
+check/thmAB
+email-draft*.md
+.DS_Store
