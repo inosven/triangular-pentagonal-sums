@@ -1,9 +1,9 @@
 # Sums of two triangular numbers and a pentagonal number
 
-Draft paper and verification programs. Status (2026-11-26): proof written (10 pages); checked by
-an independent AI referee pass, which found no error in the proofs (its findings on attribution,
-wording and one wrong remark are fixed); not yet read by a human mathematician; not yet
-formalized in Lean.
+Draft paper, verification programs and Lean 4 formalization. Status (2026-11-26): proof written
+(11 pages); checked by an independent AI referee pass, which found no error in the proofs;
+formalized in Lean 4 except for the classical input (see below); not yet read by a human
+mathematician.
 
 ## Claimed results
 
@@ -33,6 +33,19 @@ This is 20 of the 407 tuples of Conjecture 1.5 in Sun's arXiv:1502.03056:
 - `check/primseed.py`: numerical check of Proposition 4.1.
 - `check/e2e_algorithm.py`: runs the algorithm of the proof from an arbitrary first solution.
 - `check/sun_tuples_407.json`: Sun's list, parsed from the appendix of arXiv:1502.03056.
+
+## Lean formalization
+
+`lean/TriPent.lean` (Lean `v4.33.1`, mathlib at the revision in `lean/lakefile.toml`):
+
+    cd lean && lake exe cache get && lake env lean TriPent.lean
+
+The last lines of output list the axioms of the twelve main statements: only `propext`,
+`Classical.choice`, `Quot.sound`. No `sorry`, no `native_decide`. Proposition 4.1 of the paper is
+not formalized; it enters as the hypotheses `PrimRep133` and `PrimRep113`. Formalized without
+hypotheses: Theorems 3.2 and 3.3 (`exists_other_residue`, `exists_mixed`) and Lemma 4.2
+(`seedS`, `seedT`). Formalized from the hypotheses: Theorems 1.1, 1.2 (universality), 1.4 and
+Corollary 1.3, including the 2468 small cases, which the kernel checks from an explicit list.
 
 ## Classical input
 

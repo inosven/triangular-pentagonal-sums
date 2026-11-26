@@ -45,6 +45,7 @@ The proof starts from a primitive representation by $x^2+y^2+3z^2$ or $x^2+3y^2+
 theory of genera provides. The new part is elementary: multiplication by a cube root of unity in the ring of
 Eisenstein integers moves between representations, and a rotation of infinite order shows that along these moves
 the sign condition behind the word ``nonnegative'' is eventually met.
+This new part, and the deduction of all the results from the classical input, have been formalized in Lean~4.
 \end{abstract}
 
 \maketitle
@@ -168,8 +169,8 @@ In the cases treated here only one binary condition is in play, and the periodic
 Section~\ref{sec:partner} introduces the partner map.
 Section~\ref{sec:descent} contains the two theorems on changing the residue and the lemma for large $v$.
 Section~\ref{sec:seed} supplies primitive representations.
-The theorems are proved in Section~\ref{sec:proofs}, and Section~\ref{sec:remarks} contains remarks on the scope of the method
-and on the accompanying computations.
+The theorems are proved in Section~\ref{sec:proofs}. Section~\ref{sec:lean} describes the formalization in Lean,
+and Section~\ref{sec:remarks} contains remarks on the scope of the method and on the accompanying computations.
 
 \section{The partner map}\label{sec:partner}
 
@@ -602,6 +603,31 @@ $n=\Tr(x)+p_5(y)+\pb(z)$. This proves the first two assertions, and hence the un
 Finally, for $m\in\N$ apply this to $n=m+1$: since $p_5(y)-1=(y-1)(3y+2)/2=\psi_{3,5}(y-1)$, we get
 $m=\psi_{3,5}(y-1)+\pb(z)+\Tr(x)$ with $y-1,z,x\in\N$. So $(3,5,3,1,1,1)$ is universal over $\N$.
 \end{proof}
+
+\section{Formalization}\label{sec:lean}
+
+The arguments of Sections~\ref{sec:partner}, \ref{sec:descent} and~\ref{sec:proofs} and of Lemma~\ref{lem:seed}
+have been formalized in Lean~4 with Mathlib; the development is a single file \texttt{TriPent.lean} in the accompanying files \cite{code}.
+Proposition~\ref{prop:classical} is not formalized, since the theory of genera is not available in Mathlib.
+It enters as two explicit hypotheses,
+\begin{align*}
+\texttt{PrimRep133}&:\quad \forall N\in\Z,\ N>0,\ N\equiv 7 \ (\mathrm{mod}\ 24)\ \Longrightarrow\ \exists\, v,a,b\in\Z:\ v^2+3a^2+3b^2=N,\ \gcd(v,a,b)=1,\\
+\texttt{PrimRep113}&:\quad \forall N\in\Z,\ N>0,\ N\equiv 5 \ (\mathrm{mod}\ 24)\ \Longrightarrow\ \exists\, u,v,w\in\Z:\ 3u^2+v^2+w^2=N,\ \gcd(u,v,w)=1,
+\end{align*}
+which are exactly the two parts of Proposition~\ref{prop:classical}. The formal statements proved are the following.
+\begin{itemize}
+\item \texttt{exists\_other\_residue} and \texttt{exists\_mixed}: Theorems~\ref{thm:A} and~\ref{thm:B}, without any hypothesis.
+\item \texttt{seedS} and \texttt{seedT}: Lemma~\ref{lem:seed}, starting from a primitive solution.
+\item \texttt{two\_triangular\_pentagonal}: \texttt{PrimRep133} implies Theorem~\ref{thm:main}, in the form
+$\forall n\in\N\ \exists x,y,z\in\N:\ n=x(x+1)/2+y(y+1)/2+z(3z-1)/2$ and ($n\ge 1\Rightarrow z\ge 1$), with the division and subtraction of natural numbers.
+\item \texttt{family\_m1}, \texttt{family\_p1}, \texttt{family\_p5}: \texttt{PrimRep133} implies the universality statements of Theorem~\ref{thm:family};
+the $2468$ small cases are verified by the Lean kernel from an explicit list of representations.
+\item \texttt{tuple\_3\_m1\_2\_2\_2\_0} and its two analogues: Corollary~\ref{cor:square}.
+\item \texttt{triangular\_two\_pentagonal\_mixed} and \texttt{tuple\_3\_5\_3\_1\_1\_1}: \texttt{PrimRep113} implies Theorem~\ref{thm:mixed}.
+\end{itemize}
+No axioms are used beyond the three standard ones of Lean (\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}), and no \texttt{sorry} or \texttt{native\_decide}.
+The periodicity argument is formalized as in the proofs above: the orbit of the map $R$ stays in a finite box, the pigeonhole principle gives a period,
+and Lemma~\ref{lem:2adic} is proved by strong induction on a bound for the entries.
 
 \section{Remarks}\label{sec:remarks}
 
