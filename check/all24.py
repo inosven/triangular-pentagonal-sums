@@ -1,10 +1,10 @@
-# Brute-force sanity check of the 23 tuples (independent of the proofs), and membership in Sun's list.
+# Brute-force sanity check of the 24 tuples (independent of the proofs), and membership in Sun's list.
 import json, sys
 sun=set(tuple(t) for t in json.load(open('sun_tuples_407.json')))
 tuples=[(3,-1,1,d,1,1) for d in range(1,19,2)]+[(3,1,1,d,1,1) for d in (1,3,5,7)]+[(3,5,1,1,1,1),(3,5,1,3,1,1)]
 tuples+=[(3,-1,2,2,2,0),(3,1,2,2,2,0),(3,5,2,2,2,0),(3,1,3,-1,1,1),(3,5,3,1,1,1)]
-tuples+=[(3,7,1,1,1,1),(3,7,2,2,2,0),(3,7,3,-1,1,1)]
-assert len(tuples)==23 and all(t in sun for t in tuples)
+tuples+=[(3,7,1,1,1,1),(3,7,2,2,2,0),(3,7,3,-1,1,1),(3,-1,2,4,2,2)]
+assert len(tuples)==24 and all(t in sun for t in tuples)
 M=int(sys.argv[1])
 psi=lambda a,b,x: x*(a*x+b)//2
 for (a,b,c,d,e,f) in tuples:
@@ -26,7 +26,7 @@ for (a,b,c,d,e,f) in tuples:
             if p+q<M: ok[p+q]=1
             else: break
     assert all(ok),((a,b,c,d,e,f),ok.index(0))
-print("all 23 tuples are in Sun's list and represent every n <",M)
+print("all 24 tuples are in Sun's list and represent every n <",M)
 # refinements: n>=1 => z>=1 in Theorem 1.1 ; y>=1 in Theorem 1.4
 T=lambda x:x*(x+1)//2; p5=lambda x:x*(3*x-1)//2; P5=lambda x:x*(3*x+1)//2
 M2=min(M,20000)
@@ -67,3 +67,16 @@ for n in range(M2):
     B[n]=any(q<=n and Tp[n-q] for q in P5s)
 assert all(A[2:]) and all(B[2:]) and not A[1] and not B[1]
 print("Theorem 1.5 (z>=1 for n>=2; fails for n=1) holds for n <",M2)
+# Theorem 1.6: every n>=1 is p5(x)+T(r)+T(s) with r != s
+C=bytearray(M2)
+for i,p in enumerate(ts):
+    for q in ts[:i]:
+        if p+q<M2: C[p+q]=1
+tt=[i for i in range(M2) if C[i]]
+D=bytearray(M2)
+for p in p5s:
+    for q in tt:
+        if p+q<M2: D[p+q]=1
+        else: break
+assert all(D[1:])
+print("Theorem 1.6 (two triangular numbers with different indices) holds for 1 <= n <",M2)
