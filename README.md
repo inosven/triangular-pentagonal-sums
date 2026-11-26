@@ -5,6 +5,9 @@ Draft paper, verification programs and Lean 4 formalization. Status (2026-11-26)
 formalized in Lean 4 except for the classical input (see below); not yet read by a human
 mathematician.
 
+Archived on Zenodo (2026-11-26, CC BY 4.0): version 1 is https://doi.org/10.5281/zenodo.24570763;
+all versions: https://doi.org/10.5281/zenodo.24570762.
+
 ## Claimed results
 
 Every `n >= 0` is, with `x, y, z >= 0`:
