@@ -1,4 +1,5 @@
-# Lemma 6.4 (nine points), checked in exact rational arithmetic.
+# Not used in the paper. A bound from an earlier version of the proof of Theorem 6.1 ("nine points"),
+# checked in exact rational arithmetic; the final proof replaces it by the explicit formulas for x_1,...,x_5.
 # R = BA acts on triples (v,a,b); with pi(v,a,b) = (a-v, b-v) =: Y one has pi∘R = M1∘pi.
 # For x = c*d + y, d = (1,1,1), y orthogonal to d:   tau(x) = 7c,
 #   first entry of R^{-j} x = c - (3/7) S_j,  S_j = sum of the entries of M1^{-j} Y,

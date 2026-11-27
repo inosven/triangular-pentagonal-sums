@@ -39,9 +39,9 @@ This is 24 of the 407 tuples of Conjecture 1.5 in Sun's arXiv:1502.03056:
 - `check/thmCD.c`: the same for Theorems 3.8 and 3.9, including the claim that the moves are the
   linear maps `A`, `B` on the signed triples (`./thmCD 300000` passed: 2.8e8 and 3.2e8 triples).
 - `check/all24.py`: brute-force test of the 24 tuples, their membership in Sun's list, and Theorems 1.5, 1.6.
-- `check/symmetric.py`: the second computation the proofs use (Step 5 of the proof of Theorem 6.1):
-  128 linear equations, 8 solutions satisfying the inequalities, none of them an obstruction.
-- `check/ninepoints.py`: Lemma 6.4 in exact rational arithmetic (the paper gives a proof with angles).
+- `check/symmetric.py`: checks the formulas and Table 1 in Step 5 of the proof of Theorem 6.1
+  (the proof itself is by hand: 21 linear equations in two unknowns).
+- `check/ninepoints.py`: a bound from an earlier version of that proof; not used in the paper.
 - `check/thmE.c`: exhaustive test of Theorem 6.1 on every primitive triple (`./thmE 150000` passed: 9.8e7 triples).
 - `check/dfamily.py`: both directions of Theorem 1.2 for odd `d < 27`.
 - `check/classnum.py`: the forms `<1,1,3>` and `<1,3,3>` are alone in their genus (p-neighbours).
@@ -62,8 +62,7 @@ hypotheses: Theorems 3.2, 3.3, 3.8, 3.9 (`exists_other_residue`, `exists_mixed`,
 `exists_residue1_gt`, `exists_high_low`) and Lemma 4.2 (`seedS`, `seedT`). Formalized from the
 hypotheses: Theorems 1.1, 1.2 (universality), 1.4, 1.5 (the three tuples) and Corollary 1.3,
 including the 2468 small cases, which the kernel checks from an explicit list.
-Not formalized: Section 6 (Theorem 6.1 and Theorem 1.6, the tuple `(3,-1,2,4,2,2)`). Its proof
-uses a bound obtained from the rotation `BA` over the reals and a finite computation.
+Not formalized yet: Section 6 (Theorem 6.1 and Theorem 1.6, the tuple `(3,-1,2,4,2,2)`).
 
 ## Classical input
 

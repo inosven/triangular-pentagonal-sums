@@ -47,8 +47,7 @@ The proof starts from a primitive representation by $x^2+y^2+3z^2$ or $x^2+3y^2+
 theory of genera provides. The new part is elementary: multiplication by a cube root of unity in the ring of
 Eisenstein integers moves between representations, and a rotation of infinite order shows that along these moves
 the sign condition behind the word ``nonnegative'' is eventually met.
-For twenty-three of the twenty-four tuples this new part, and the deduction of the results from the classical input, have been formalized in Lean~4;
-the proof for the remaining tuple uses in addition a finite computation.
+For twenty-three of the twenty-four tuples this new part, and the deduction of the results from the classical input, have been formalized in Lean~4.
 \end{abstract}
 
 \maketitle
@@ -191,8 +190,8 @@ Here the observation is that the periodicity argument still applies if a coordin
 with this sign the moves that do not lead to a representation of the required kind are again given by the same two linear maps
 (Lemma~\ref{lem:hat}).
 In Theorem~\ref{thm:distinct} the representations with $a=b$ have to be avoided. Here the periodicity argument is not sufficient.
-We show that a sequence of moves between two such representations is short, by looking at the rotation $BA$ over the real numbers
-(Lemma~\ref{lem:nine}), unless it is excluded by a $2$-adic argument (Lemma~\ref{lem:val}); what remains is a finite list of linear equations.
+We show that a sequence of moves between two such representations has at most five steps,
+unless it is excluded by a $2$-adic argument (Lemma~\ref{lem:val}); what remains is a short list of linear equations in two unknowns.
 
 Excluding a periodic orbit of a rational isometry by showing that the relevant eigenvalues are not roots of unity
 is also done in \cite[Lemma~6]{CGQFG}, there in order to pass from one class of a genus to the other.
@@ -737,17 +736,12 @@ In this section we prove Theorem~\ref{thm:distinct}. We use the notation of Sect
 the maps $\alpha$, $\beta$, $A$, $B$, $R=BA$ and $\pi$ from the proof of Theorem~\ref{thm:A}, and the words \emph{high} and \emph{low} introduced before Lemma~\ref{lem:hat}.
 Let $\sigma(v,a,b)=(v,b,a)$; then $\sigma\alpha=\beta\sigma$ and $\sigma A\sigma=B$.
 A triple $(v,a,b)\in\cS(N)$ is called \emph{primitive} if $\gcd(v,a,b)=1$, \emph{symmetric} if $a=b$, and \emph{good} if $v$ is low and $a\ne b$.
-For $x=(x_1,x_2,x_3)\in\R^3$ put
-\[
-Q(x)=x_1^2+3x_2^2+3x_3^2,\qquad \tau(x)=x_1+3x_2+3x_3 .
-\]
-The maps $A$, $B$ and $\sigma$ preserve $Q$ and $\tau$.
 
 \begin{theorem}\label{thm:E}
 Let $N$ be a positive integer different from $7$. If $\cS(N)$ contains a primitive triple, then $\cS(N)$ contains a good triple.
 \end{theorem}
 
-The proof needs three lemmas.
+The proof needs two lemmas.
 
 \begin{lemma}\label{lem:gcd}
 The maps $\alpha$ and $\beta$ send primitive triples to primitive triples.
@@ -776,32 +770,6 @@ so $\pi(x_{j+1})=\pi(Bx_j)$ has valuations $(e-j-1,\ e-j)$. If $j\ge 2$ is even 
 so $\pi(x_{j+1})=\pi(Ax_j)$ has valuations $(e-j,\ e-j-1)$.
 \end{proof}
 
-\begin{lemma}\label{lem:nine}
-Let $x\in\R^3$ and suppose that the first entries of the nine vectors $(AB)^jx$, $0\le j\le 8$, are positive. Then $2\tau(x)^2>11\,Q(x)$.
-The same holds with $BA$ in place of $AB$.
-\end{lemma}
-
-\begin{proof}
-Let $\langle\ ,\ \rangle$ be the scalar product with $\langle x,x\rangle=Q(x)$ and let $d=(1,1,1)$, so that $\tau(x)=\langle x,d\rangle$ and $Q(d)=7$.
-The maps $A$ and $B$ are the reflections in the planes $a=v$ and $b=v$, which contain $d$. Hence $AB$ is a rotation about the line $\R d$.
-Its matrix has trace $5/4$, so its angle $\theta$ satisfies $1+2\cos\theta=5/4$, that is, $\cos\theta=1/8$, and therefore $80^\circ<\theta<85^\circ$.
-
-Write $x=\tfrac{\tau(x)}{7}d+y$ with $\langle y,d\rangle=0$ and $(1,0,0)=\tfrac17d+e$ with $\langle e,d\rangle=0$; then $Q(e)=6/7$ and $Q(x)=\tau(x)^2/7+Q(y)$.
-The first entry of a vector $z$ is $\langle z,(1,0,0)\rangle$. Hence, for a suitable angle $\omega$,
-\[
-\text{the first entry of }(AB)^jx\ \text{ is }\ \frac{\tau(x)}{7}+\langle (AB)^jy,e\rangle=\frac{\tau(x)}{7}+\sqrt{\tfrac67Q(y)}\,\cos(\omega+j\theta)\qquad(j\in\Z).
-\]
-As $4\theta<360^\circ<5\theta$ and $8\theta<720^\circ$, the nine angles $j\theta$ $(0\le j\le 8)$ are, modulo $360^\circ$ and in increasing order,
-\[
-0,\ 5\theta-360^\circ,\ \theta,\ 6\theta-360^\circ,\ 2\theta,\ 7\theta-360^\circ,\ 3\theta,\ 8\theta-360^\circ,\ 4\theta ,
-\]
-and two cyclically consecutive ones differ by $5\theta-360^\circ<65^\circ$ or by $360^\circ-4\theta<40^\circ$.
-So there is $j\in\{0,\dots,8\}$ such that $\omega+j\theta$ differs from $180^\circ$ by at most $32.5^\circ$ modulo $360^\circ$, and then $\cos(\omega+j\theta)\le-\cos 32.5^\circ<-0.84$.
-The first entry of $(AB)^jx$ being positive, we get $\tau(x)/7>0.84\sqrt{6Q(y)/7}$, hence $\tau(x)>0$ and
-$\tau(x)^2>49\cdot 0.84^2\cdot\tfrac67\,Q(y)\ge\tfrac{77}{3}Q(y)$. Therefore $11\,Q(x)=\tfrac{11}{7}\tau(x)^2+11\,Q(y)<\tfrac{11}{7}\tau(x)^2+\tfrac37\tau(x)^2=2\tau(x)^2$.
-The statement for $BA=\sigma(AB)\sigma$ follows, since $\sigma$ preserves the first entry, $\tau$ and $Q$.
-\end{proof}
-
 \begin{proof}[Proof of Theorem~\ref{thm:E}]
 Let $t\in\cS(N)$ be primitive, and let $O\subseteq\cS(N)$ be the set of all triples obtained from $t$ by applying $\alpha$ and $\beta$ repeatedly.
 By Lemma~\ref{lem:gcd} all triples in $O$ are primitive; as $N\ne 7$, none of them is diagonal. By Lemma~\ref{lem:partner}(c), $\alpha$ and $\beta$ are involutions of the finite set $O$.
@@ -814,11 +782,10 @@ We say that $s$ is of \emph{type} II if $(a,v)$ is in case~II, of type $\mathrm{
 \alpha(s)=\Bigl(\frac{v-3a}{2},\frac{a+v}{2},a\Bigr),\qquad \Bigl(\frac{3a+v}{2},\frac{a-v}{2},a\Bigr),\qquad \Bigl(\frac{3a+v}{2},\frac{v-a}{2},a\Bigr).
 \]
 The first entry of $\alpha(s)$ is $\equiv 1\pmod 3$, and $\alpha(s)$ is not symmetric, since $v\ne a$, $v>0$ and $3\nmid v$; so $\alpha(s)$ is high, and so is $\beta(s)=\sigma\alpha(s)$.
-We note two facts. Put $s^-=(-v,a,a)$.
-\begin{enumerate}
-\item[(1)] If $s$ is of type $\mathrm{III}^+$, then $\alpha(s)=As^-$ and $\beta(s)=Bs^-$.
-\item[(2)] If $s$ is of type II or $\mathrm{III}^-$, then $\tau(\alpha(s))=\tau(\beta(s))=2v+3a$, and so $2\tau(\alpha(s))^2=11N-3(v-4a)^2\le 11N$.
-\end{enumerate}
+Put $s^-=(-v,a,a)$. If $s$ is of type $\mathrm{III}^+$, then
+\begin{equation}\label{eq:minus}
+\alpha(s)=As^-\qquad\text{and}\qquad \beta(s)=Bs^- .
+\end{equation}
 
 \emph{Step 2: a run.} By the proof of Theorem~\ref{thm:A}, applied to $t$, the set $O$ contains a triple whose first entry is $\equiv 2\pmod 3$; it is low, hence symmetric.
 Call it $s_0$ and define $s_{i+1}=\alpha(s_i)$ for even $i$ and $s_{i+1}=\beta(s_i)$ for odd $i$. As $\alpha$ and $\beta$ are bijections of the finite set $O$, this sequence is periodic,
@@ -829,36 +796,63 @@ If the first entry of $s'$ is $\equiv 1\pmod 3$, the last step is in case~I as w
 Otherwise $s'$ is one of the triples of Step~1, and $s_k$ is $\alpha(s')$ or $\beta(s')$.
 
 \emph{Step 3: one of $s_0$, $s'$ is a triple as in Step~1 of type \textup{II} or $\mathrm{III}^-$.}
-Suppose not. Then $s_0$ is of type $\mathrm{III}^+$, and either $s'=Xs_k$, or $s'$ is of type $\mathrm{III}^+$ and $s_k=Xs'^-$ by (1), that is, $Xs_k=s'^-$.
-In both cases $Xs_k$ is symmetric. Put $x_0=s_0^-$, $x_i=s_i$ for $1\le i\le k$ and $x_{k+1}=Xs_k$. By (1), $x_1=Ax_0$, so $x_{j+1}=Ax_j$ for even $j$ and $x_{j+1}=Bx_j$ for odd $j$,
+Suppose not. Then $s_0$ is of type $\mathrm{III}^+$, and either $s'=Xs_k$, or $s'$ is of type $\mathrm{III}^+$ and $s_k=Xs'^-$ by \eqref{eq:minus}, that is, $Xs_k=s'^-$.
+In both cases $Xs_k$ is symmetric. Put $x_0=s_0^-$, $x_i=s_i$ for $1\le i\le k$ and $x_{k+1}=Xs_k$. By \eqref{eq:minus}, $x_1=Ax_0$, so $x_{j+1}=Ax_j$ for even $j$ and $x_{j+1}=Bx_j$ for odd $j$,
 and $\pi(x_0)=(a+v,a+v)\ne 0$. This contradicts Lemma~\ref{lem:val}.
 
-\emph{Step 4: $k\le 16$.} Suppose $k\ge 17$. If $s_0$ is of type II or $\mathrm{III}^-$, let $x=s_1$. By (2), $2\tau(x)^2\le 11N=11\,Q(x)$.
-But $(AB)^jx=s_{1+2j}$ for $0\le j\le 8$, and these triples have positive first entries; this contradicts Lemma~\ref{lem:nine}.
-Otherwise, by Step~3, $s'$ is of type II or $\mathrm{III}^-$. Let $x=s_k$. By (2), $2\tau(x)^2\le 11\,Q(x)$, and $s_{k-2j}$ is $(BA)^jx$ for odd $k$ and $(AB)^jx$ for even $k$ $(0\le j\le 8)$;
-again this contradicts Lemma~\ref{lem:nine}.
+\emph{Step 4: reduction to a triple of type \textup{II} or $\mathrm{III}^-$.}
+If $s_0$ is not of type II or $\mathrm{III}^-$, we replace the sequence $s_0,s_1,\dots,s_k,s'$ by the reversed sequence $s',s_k,\dots,s_1,s_0$,
+and, if $s_k=\beta(s')$, we apply $\sigma$ to all its members. By Step~3 we obtain in all cases the following situation:
+there are a symmetric triple $s=(v,a,a)\in O$ with $v\equiv 2\pmod 3$ of type II or $\mathrm{III}^-$, an integer $k\ge 1$, and vectors $x_1,\dots,x_k$ with positive entries such that
+$x_1=\alpha(s)$, $x_{i+1}=Bx_i$ for odd $i<k$ and $x_{i+1}=Ax_i$ for even $i<k$, and such that the following holds.
+Write $x_k=(v_k,a_k,b_k)$ and put $(p,q)=(b_k,a_k)$ for odd $k$, $(p,q)=(a_k,b_k)$ for even $k$. Then
+\begin{equation}\label{eq:end}
+\frac{p+v_k}{2}=q\qquad\text{or}\qquad \frac{p-v_k}{2}=q\qquad\text{or}\qquad \frac{v_k-p}{2}=q .
+\end{equation}
+Indeed, the next member of the sequence is symmetric, and it is obtained from $x_k$ by replacing the pair $(p,v_k)$ by its partner, whose first entry is $(p+v_k)/2$ or $|p-v_k|/2$.
 
-\emph{Step 5: a finite computation.} If $s_0$ is not of type II or $\mathrm{III}^-$, we replace the sequence $s_0,s_1,\dots,s_k,s'$ by the reversed sequence $s',s_k,\dots,s_1,s_0$,
-and, if $s_k=\beta(s')$, we apply $\sigma$ to all its members. In all cases we obtain the following situation:
-there are a symmetric triple $s=(v,a,a)\in O$ with $v\equiv 2\pmod 3$ of type II or $\mathrm{III}^-$, an integer $k$ with $1\le k\le 16$, and vectors $x_1,\dots,x_k$ with positive entries such that
-$x_1=\alpha(s)$, $x_{i+1}=Bx_i$ for odd $i<k$ and $x_{i+1}=Ax_i$ for even $i<k$, and such that, writing $x_k=(v_k,a_k,b_k)$ and $(p,q)=(b_k,a_k)$ for odd $k$, $(p,q)=(a_k,b_k)$ for even $k$,
-one of the following four conditions holds:
-\begin{align*}
-&v_k<3p \ \text{ and }\ \tfrac{p+v_k}{2}=q; && v_k>3p \ \text{ and }\ \tfrac{p+v_k}{2}=q;\\
-&p>v_k \ \text{ and }\ \tfrac{p-v_k}{2}=q; && p<v_k \ \text{ and }\ \tfrac{v_k-p}{2}=q .
-\end{align*}
-The first condition says that the next triple, reached in case~I, is symmetric; the other three say that the partner of the pair $(p,v_k)$, in case~II or~III, gives a symmetric triple.
-By the formulas of Step~1 the entries of $x_1,\dots,x_k$ are linear forms in $v$ and $a$ with rational coefficients, depending on the type of $s$ and on $k$.
-So each of the $2\cdot 16\cdot 4=128$ cases is one linear equation for $v$ and $a$.
-A computation in exact rational arithmetic shows that none of these equations holds identically, that $92$ of them have a solution with $v/a>0$,
-and that in exactly eight cases this solution also satisfies the inequality of the type ($v>3a$ for type II, $v>a$ for type $\mathrm{III}^-$), the positivity of all entries of $x_1,\dots,x_k$, and the inequality of the condition. The eight values are
+\emph{Step 5: the triple $s$ does not exist.} Define $x_1=\alpha(s)$, $x_2=Bx_1$, $x_3=Ax_2$, $x_4=Bx_3$, $x_5=Ax_4$ as vectors in $\Q^3$. By the formulas of Step~1 a direct computation gives, for $s$ of type II,
 \[
-\frac va\ =\ \frac53,\quad \frac{39}{17},\quad \frac{17}{7},\quad 3,\quad \frac{27}{7},\quad 5,\quad 7,\quad \frac{23}{3}.
+x_1=\Bigl(\frac{v-3a}{2},\frac{v+a}{2},a\Bigr),\quad
+x_2=\Bigl(\frac{9a-v}{4},\frac{v+a}{2},\frac{v-a}{4}\Bigr),\quad
+x_3=\Bigl(\frac{7v-3a}{8},\frac{v+11a}{8},\frac{v-a}{4}\Bigr),
 \]
-As $s$ is primitive, $v$ and $a$ are odd, and $v\equiv 2\pmod 3$, the triple $s$ is one of $(5,3,3)$, $(17,7,7)$, $(5,1,1)$, $(23,3,3)$. But
+and the first entry of $x_4$ is $-(v+3a)/16<0$. For $s$ of type $\mathrm{III}^-$ it gives
+\begin{gather*}
+x_1=\Bigl(\frac{v+3a}{2},\frac{v-a}{2},a\Bigr),\qquad
+x_2=\Bigl(\frac{3a-v}{4},\frac{v-a}{2},\frac{v+5a}{4}\Bigr),\\
+x_3=\Bigl(\frac{7v-9a}{8},\frac{v+a}{8},\frac{v+5a}{4}\Bigr),\qquad
+x_4=\Bigl(\frac{39a-v}{16},\frac{v+a}{8},\frac{9v+a}{16}\Bigr),
+\end{gather*}
+and the first entry of $x_5$ is $(7v-33a)/32$, which is negative when the first entry of $x_2$ is positive.
+As $x_1,\dots,x_k$ have positive entries, we get $k\le 3$ for type II, with $v<9a$ if $k\ge 2$; and $k\le 4$ for type $\mathrm{III}^-$, with $v<3a$ if $k\ge 2$.
+Recall that $v>3a$ for type II and $v>a$ for type $\mathrm{III}^-$.
+
+\begin{table}[ht]
+\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{cccccc}
+type & $k$ & $(v_k,p,q)$ & $\tfrac{p+v_k}{2}=q$ & $\tfrac{p-v_k}{2}=q$ & $\tfrac{v_k-p}{2}=q$ \\[2pt] \hline
+II & $1$ & $\bigl(\tfrac{v-3a}{2},\,a,\,\tfrac{v+a}{2}\bigr)$ & $v=-3a$ & $v=a$ & $v=-7a$ \rule{0pt}{14pt}\\[3pt]
+II & $2$ & $\bigl(\tfrac{9a-v}{4},\,\tfrac{v+a}{2},\,\tfrac{v-a}{4}\bigr)$ & $v=13a$ & $\mathbf{v=5a}$ & $5v=9a$ \\[3pt]
+II & $3$ & $\bigl(\tfrac{7v-3a}{8},\,\tfrac{v-a}{4},\,\tfrac{v+11a}{8}\bigr)$ & $\mathbf{7v=27a}$ & $v=-3a$ & $\mathbf{3v=23a}$ \\[3pt]
+$\mathrm{III}^-$ & $1$ & $\bigl(\tfrac{v+3a}{2},\,a,\,\tfrac{v-a}{2}\bigr)$ & $\mathbf{v=7a}$ & $3v=a$ & $\mathbf{v=3a}$ \\[3pt]
+$\mathrm{III}^-$ & $2$ & $\bigl(\tfrac{3a-v}{4},\,\tfrac{v-a}{2},\,\tfrac{v+5a}{4}\bigr)$ & $v=-9a$ & $v=15a$ & $v=-a$ \\[3pt]
+$\mathrm{III}^-$ & $3$ & $\bigl(\tfrac{7v-9a}{8},\,\tfrac{v+5a}{4},\,\tfrac{v+a}{8}\bigr)$ & $7v=a$ & $\mathbf{7v=17a}$ & $v=7a$ \\[3pt]
+$\mathrm{III}^-$ & $4$ & $\bigl(\tfrac{39a-v}{16},\,\tfrac{v+a}{8},\,\tfrac{9v+a}{16}\bigr)$ & $\mathbf{17v=39a}$ & $5v=-13a$ & $\mathbf{3v=5a}$
+\end{tabular}
+\vspace{4pt}
+\caption{The solutions of the equations \eqref{eq:end}. Those compatible with $v,a>0$ and with the inequalities for the type and for $k$ are in bold.}\label{tab:eq}
+\end{table}
+For each of these seven pairs (type, $k$) the three equations in \eqref{eq:end} are linear in $v$ and $a$. Their solutions are listed in Table~\ref{tab:eq}.
+Only eight of the solutions are compatible with $v,a>0$, with $v>3a$ (type II) or $v>a$ (type $\mathrm{III}^-$), and with $v<9a$ (type II, $k\ge 2$) or $v<3a$ (type $\mathrm{III}^-$, $k\ge 2$), namely
+\[
+v=5a,\quad 7v=27a,\quad 3v=23a,\quad v=7a,\quad v=3a,\quad 7v=17a,\quad 17v=39a,\quad 3v=5a .
+\]
+As $\gcd(v,a)=1$, $3\nmid v$ and $v\equiv 2\pmod 3$, the equations $7v=27a$, $v=3a$, $17v=39a$ and $v=7a$ are impossible,
+and $s$ is one of the triples $(5,1,1)$, $(23,3,3)$, $(17,7,7)$, $(5,3,3)$. But
 \begin{align*}
-&\beta\alpha(5,3,3)=\beta(7,1,3)=(1,1,5), &&\beta\alpha(17,7,7)=\beta(19,5,7)=(1,5,13),\\
-&\alpha(5,1,1)=(1,3,1), &&\beta\alpha(23,3,3)=\beta(7,13,3)=(1,13,5)
+&\alpha(5,1,1)=(1,3,1), &&\beta\alpha(23,3,3)=\beta(7,13,3)=(1,13,5),\\
+&\beta\alpha(17,7,7)=\beta(19,5,7)=(1,5,13), &&\beta\alpha(5,3,3)=\beta(7,1,3)=(1,1,5)
 \end{align*}
 are good triples in $O$. This contradiction proves the theorem.
 \end{proof}
@@ -911,12 +905,10 @@ and Lemma~\ref{lem:2adic} is proved by strong induction on a bound for the entri
 \section{Remarks}\label{sec:remarks}
 
 \subsection*{Computations}
-Two computations are used in the proofs. The first is the direct search in the proof of Theorem~\ref{thm:family}:
-$2468$ cases with $n\le 779$, which take a fraction of a second. The second is the solution of the $128$ linear equations in Step~5 of the proof of Theorem~\ref{thm:E}.
-The programs and the resulting lists are in the accompanying files \cite{code}.
-Lemma~\ref{lem:nine} was also verified in exact rational arithmetic: after normalising $\tau(x)$, its hypothesis describes a polygon with nine vertices,
-and the convex function $Q$ is largest at a vertex.
-Theorem~\ref{thm:E} was checked for every primitive triple in $\cS(24n+7)$ with $n<1.5\cdot 10^5$.
+The only computation used in the proofs is the direct search in the proof of Theorem~\ref{thm:family}:
+$2468$ cases with $n\le 779$, which take a fraction of a second. The program and the resulting list of representations are in the accompanying files \cite{code}.
+The formulas and Table~\ref{tab:eq} in Step~5 of the proof of Theorem~\ref{thm:E} were also checked by a program,
+and Theorem~\ref{thm:E} was checked for every primitive triple in $\cS(24n+7)$ with $n<1.5\cdot 10^5$ (about $9.8\cdot 10^7$ triples).
 Independently of the proofs, the statements of Theorems~\ref{thm:A}, \ref{thm:B}, \ref{thm:C} and~\ref{thm:D} were checked for every triple in
 $\cS(24n+7)$ and $\cT(24n+5)$ with $n<3\cdot 10^5$ (about $2.8\cdot 10^8$ and $3.2\cdot 10^8$ triples);
 the sequence $s_0,s_1,\dots$ of the proofs reached the required triple after at most $19$ steps,
