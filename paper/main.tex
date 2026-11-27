@@ -261,7 +261,7 @@ If $u<v$, then $v'-u'=2u\equiv 2\pmod 4$, so $(u',v')$ is in case~III, and
 $\varphi(u',v')=\bigl(\tfrac{v'-u'}{2},\tfrac{3u'+v'}{2}\bigr)=(u,v)$.
 \end{proof}
 
-Part~(c) justifies the name ``partner'' but is not used in the proofs below.
+Part~(c) justifies the name ``partner''; it is used only in Section~\ref{sec:distinct}.
 
 \begin{remark}\label{rem:eisenstein}
 Let $\omega=(-1+\sqrt{-3})/2$. For odd $u,v$ the number $\xi=(v+u\sqrt{-3})/2$ lies in $\Z[\omega]$ and has norm $(3u^2+v^2)/4$.
@@ -733,7 +733,8 @@ Applying (ii) to $n=m+2$ we get $m=\psi_{3,7}(z-1)+p_5(y)+\Tr(x)$, so $(3,7,3,-1
 \section{Two triangular numbers with different indices}\label{sec:distinct}
 
 In this section we prove Theorem~\ref{thm:distinct}. We use the notation of Section~\ref{sec:descent}:
-the maps $\alpha$, $\beta$, $A$, $B$, $R=BA$ and $\pi$ from the proof of Theorem~\ref{thm:A}, and the words \emph{high} and \emph{low} introduced before Lemma~\ref{lem:hat}.
+the maps $\alpha$, $\beta$, $A$, $B$ and $\pi$ from the proof of Theorem~\ref{thm:A}, and the words \emph{high} and \emph{low} introduced before Lemma~\ref{lem:hat};
+a triple is called high or low if its first entry is.
 Let $\sigma(v,a,b)=(v,b,a)$; then $\sigma\alpha=\beta\sigma$ and $\sigma A\sigma=B$.
 A triple $(v,a,b)\in\cS(N)$ is called \emph{primitive} if $\gcd(v,a,b)=1$, \emph{symmetric} if $a=b$, and \emph{good} if $v$ is low and $a\ne b$.
 
@@ -788,8 +789,8 @@ Put $s^-=(-v,a,a)$. If $s$ is of type $\mathrm{III}^+$, then
 \end{equation}
 
 \emph{Step 2: a run.} By the proof of Theorem~\ref{thm:A}, applied to $t$, the set $O$ contains a triple whose first entry is $\equiv 2\pmod 3$; it is low, hence symmetric.
-Call it $s_0$ and define $s_{i+1}=\alpha(s_i)$ for even $i$ and $s_{i+1}=\beta(s_i)$ for odd $i$. As $\alpha$ and $\beta$ are bijections of the finite set $O$, this sequence is periodic,
-so $s_i$ is symmetric for some $i\ge 1$. By Step~1, $s_1$ is not symmetric. Let $k\ge 1$ be such that $s_1,\dots,s_k$ are not symmetric and $s':=s_{k+1}$ is symmetric.
+Call it $s_0$ and define $s_{i+1}=\alpha(s_i)$ for even $i$ and $s_{i+1}=\beta(s_i)$ for odd $i$. The map sending $(s,0)$ to $(\alpha(s),1)$ and $(s,1)$ to $(\beta(s),0)$ is a bijection of the finite set $O\times\{0,1\}$,
+and $(s_i,\,i\bmod 2)$ is the orbit of $(s_0,0)$ under it. Hence $s_{2m}=s_0$ for some $m\ge 1$; in particular $s_i$ is symmetric for some $i\ge 1$. By Step~1, $s_1$ is not symmetric. Let $k\ge 1$ be such that $s_1,\dots,s_k$ are not symmetric and $s':=s_{k+1}$ is symmetric.
 Then $s_1,\dots,s_k$ are high. For $1\le i<k$ the step from $s_i$ to $s_{i+1}$ preserves the residue of the first entry, so it is in case~I by Lemma~\ref{lem:partner}(b):
 $s_{i+1}=Bs_i$ for odd $i$ and $s_{i+1}=As_i$ for even $i$. Let $X=B$ if $k$ is odd and $X=A$ if $k$ is even.
 If the first entry of $s'$ is $\equiv 1\pmod 3$, the last step is in case~I as well and $s'=Xs_k$.
@@ -798,7 +799,7 @@ Otherwise $s'$ is one of the triples of Step~1, and $s_k$ is $\alpha(s')$ or $\b
 \emph{Step 3: one of $s_0$, $s'$ is a triple as in Step~1 of type \textup{II} or $\mathrm{III}^-$.}
 Suppose not. Then $s_0$ is of type $\mathrm{III}^+$, and either $s'=Xs_k$, or $s'$ is of type $\mathrm{III}^+$ and $s_k=Xs'^-$ by \eqref{eq:minus}, that is, $Xs_k=s'^-$.
 In both cases $Xs_k$ is symmetric. Put $x_0=s_0^-$, $x_i=s_i$ for $1\le i\le k$ and $x_{k+1}=Xs_k$. By \eqref{eq:minus}, $x_1=Ax_0$, so $x_{j+1}=Ax_j$ for even $j$ and $x_{j+1}=Bx_j$ for odd $j$,
-and $\pi(x_0)=(a+v,a+v)\ne 0$. This contradicts Lemma~\ref{lem:val}.
+and $\pi(x_0)=(a+v,a+v)\ne 0$ if $s_0=(v,a,a)$. This contradicts Lemma~\ref{lem:val}.
 
 \emph{Step 4: reduction to a triple of type \textup{II} or $\mathrm{III}^-$.}
 If $s_0$ is not of type II or $\mathrm{III}^-$, we replace the sequence $s_0,s_1,\dots,s_k,s'$ by the reversed sequence $s',s_k,\dots,s_1,s_0$,
@@ -809,9 +810,12 @@ Write $x_k=(v_k,a_k,b_k)$ and put $(p,q)=(b_k,a_k)$ for odd $k$, $(p,q)=(a_k,b_k
 \begin{equation}\label{eq:end}
 \frac{p+v_k}{2}=q\qquad\text{or}\qquad \frac{p-v_k}{2}=q\qquad\text{or}\qquad \frac{v_k-p}{2}=q .
 \end{equation}
-Indeed, the next member of the sequence is symmetric, and it is obtained from $x_k$ by replacing the pair $(p,v_k)$ by its partner, whose first entry is $(p+v_k)/2$ or $|p-v_k|/2$.
+To see this in the reversed case, put $t_i=s_{k+1-i}$. As $A^2=B^2=\mathrm{id}$, we have $t_{i+1}=Bt_i$ if $k-i$ is odd and $t_{i+1}=At_i$ if $k-i$ is even $(1\le i<k)$.
+For even $k$ this is the required rule, $t_1=s_k=\alpha(s')$, and $s_0=\alpha(t_k)$. For odd $k$ the roles of $A$ and $B$ are exchanged and $t_1=\beta(s')$;
+since $\sigma A\sigma=B$ and $\sigma\beta=\alpha\sigma$, the vectors $x_i=\sigma t_i$ satisfy the required rule, $x_1=\alpha(s')$, and $s_0=\sigma(s_0)=\beta(x_k)$.
+In all cases the member following $x_k$ is symmetric, and it is obtained from $x_k$ by replacing the pair $(p,v_k)$ by its partner, whose first entry is $(p+v_k)/2$ or $|p-v_k|/2$. This gives \eqref{eq:end}.
 
-\emph{Step 5: the triple $s$ does not exist.} Define $x_1=\alpha(s)$, $x_2=Bx_1$, $x_3=Ax_2$, $x_4=Bx_3$, $x_5=Ax_4$ as vectors in $\Q^3$. By the formulas of Step~1 a direct computation gives, for $s$ of type II,
+\emph{Step 5: the triple $s$ does not exist.} Extend the sequence $x_1,\dots,x_k$ by the same rule to vectors $x_1=\alpha(s)$, $x_2=Bx_1$, $x_3=Ax_2$, $x_4=Bx_3$, $x_5=Ax_4$ in $\Q^3$. By the formulas of Step~1 a direct computation gives, for $s$ of type II,
 \[
 x_1=\Bigl(\frac{v-3a}{2},\frac{v+a}{2},a\Bigr),\quad
 x_2=\Bigl(\frac{9a-v}{4},\frac{v+a}{2},\frac{v-a}{4}\Bigr),\quad
@@ -848,7 +852,7 @@ Only eight of the solutions are compatible with $v,a>0$, with $v>3a$ (type II) o
 \[
 v=5a,\quad 7v=27a,\quad 3v=23a,\quad v=7a,\quad v=3a,\quad 7v=17a,\quad 17v=39a,\quad 3v=5a .
 \]
-As $\gcd(v,a)=1$, $3\nmid v$ and $v\equiv 2\pmod 3$, the equations $7v=27a$, $v=3a$, $17v=39a$ and $v=7a$ are impossible,
+As $\gcd(v,a)=1$ and $v\equiv 2\pmod 3$, the equations $7v=27a$, $v=3a$, $17v=39a$ (which give $3\mid v$) and $v=7a$ (which gives $s=(7,1,1)$) are impossible,
 and $s$ is one of the triples $(5,1,1)$, $(23,3,3)$, $(17,7,7)$, $(5,3,3)$. But
 \begin{align*}
 &\alpha(5,1,1)=(1,3,1), &&\beta\alpha(23,3,3)=\beta(7,13,3)=(1,13,5),\\
@@ -861,12 +865,13 @@ are good triples in $O$. This contradiction proves the theorem.
 Primitivity is needed in Theorem~\ref{thm:E}: for $N=55k^2$ with $k\equiv 5\pmod 6$ the triples $k\cdot(7,1,1)$, $k\cdot(5,3,1)$, $k\cdot(1,3,3)$, $k\cdot(5,1,3)$
 are permuted by $\alpha$ and $\beta$, and none of them is good. For $k=1$ the same four triples show that the analogue of Theorem~\ref{thm:E} for the other residue fails for $N=55$;
 indeed $1$ is not of the form $x(3x+1)/2+y(y+2)+z(z+1)$, and the tuple $(3,1,2,4,2,2)$ is not in the list of \cite{S20}.
+Similarly, for $g\equiv 1\pmod 6$, $g>1$, the multiples by $g$ of the triples obtained from $(5,1,1)$, $(5,3,3)$ or $(17,7,7)$ by applying $\alpha$ and $\beta$ contain no good triple.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:distinct}]
 Let $n\ge 1$ and $N=24n+7$. By Proposition~\ref{prop:classical}(a) and Lemma~\ref{lem:gcd} the set $\cS(N)$ contains a primitive triple, and $N\ne 7$.
 By Theorem~\ref{thm:E} there is $(v,a,b)\in\cS(N)$ with $a\ne b$ and $v\equiv 2\pmod 3$ or $v=1$.
-Put $r=(a-1)/2$, $s=(b-1)/2$, and $x=(v+1)/6$ if $v\equiv 2\pmod 3$, $x=0$ if $v=1$. Then $r\ne s$, and $n=p_5(x)+\Tr(r)+\Tr(s)$ by Lemma~\ref{lem:reduce}.
+Put $r=(a-1)/2$, $s=(b-1)/2$, and $x=(v+1)/6$ if $v\equiv 2\pmod 3$, $x=0$ if $v=1$. Then $r\ne s$, and $n=p_5(x)+\Tr(r)+\Tr(s)$ by the identity in the proof of Lemma~\ref{lem:reduce} (with $e=-1$ and $d=1$).
 
 For the tuple, let $m\in\N$ and write $m+1=p_5(x)+\Tr(r)+\Tr(s)$ with $r>s$. By the proof of Lemma~\ref{lem:TT}, $\Tr(r)+\Tr(s)=z(z+1)+w^2$ with $\{2z+1,2w\}=\{r+s+1,r-s\}$; in particular $w\ge 1$.
 Hence $m=p_5(x)+z(z+1)+(w-1)(w+1)=\psi_{3,-1}(x)+\psi_{2,2}(z)+\psi_{2,4}(w-1)$.
