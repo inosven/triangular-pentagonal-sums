@@ -39,15 +39,15 @@ More generally, let $P(x)$ be one of $x(3x-1)/2$, $x(3x+1)/2$, $x(3x+5)/2$ and l
 We show that every nonnegative integer has the form $P(x)+y(y+d)/2+z(z+1)/2$ with nonnegative integers $x,y,z$
 whenever $d\le 17$, $d\le 7$, $d\le 3$ respectively; by a result of Z.-W. Sun these bounds cannot be improved.
 We also show that every nonnegative integer is the sum of a triangular number,
-a pentagonal number $y(3y-1)/2$ and a second pentagonal number $z(3z+1)/2$ with nonnegative $y,z$,
-and that in this statement and in the one for $x(x+1)/2+y(y+1)/2+z(3z+1)/2$ one can take $z\ge 1$ as soon as the integer is at least $2$.
-Finally, every positive integer is the sum of a pentagonal number and two triangular numbers with different indices.
+a pentagonal number $y(3y-1)/2$ and a second pentagonal number $z(3z+1)/2$ with nonnegative $y,z$;
+that here, and for $x(x+1)/2+y(y+1)/2+z(3z+1)/2$, one can take $z\ge 1$ if the integer is at least $2$;
+and that every positive integer is the sum of a pentagonal number and two triangular numbers with different indices.
 Altogether this settles twenty-four of the $407$ conjectural universal tuples over $\N$ listed by Z.-W. Sun in 2020.
 The proof starts from a primitive representation by $x^2+y^2+3z^2$ or $x^2+3y^2+3z^2$, which the classical
 theory of genera provides. The new part is elementary: multiplication by a cube root of unity in the ring of
 Eisenstein integers moves between representations, and a rotation of infinite order shows that along these moves
 the sign condition behind the word ``nonnegative'' is eventually met.
-For twenty-three of the twenty-four tuples this new part, and the deduction of the results from the classical input, have been formalized in Lean~4.
+This new part, and the deduction of all the results from the classical input, have been formalized in Lean~4.
 \end{abstract}
 
 \maketitle
@@ -879,8 +879,8 @@ Hence $m=p_5(x)+z(z+1)+(w-1)(w+1)=\psi_{3,-1}(x)+\psi_{2,2}(z)+\psi_{2,4}(w-1)$.
 
 \section{Formalization}\label{sec:lean}
 
-The arguments of Sections~\ref{sec:partner}, \ref{sec:descent} and~\ref{sec:proofs} and of Lemma~\ref{lem:seed}
-have been formalized in Lean~4 with Mathlib (Section~\ref{sec:distinct}, that is, Theorem~\ref{thm:distinct}, has not been formalized); the development is a single file \texttt{TriPent.lean} in the accompanying files \cite{code}.
+The arguments of Sections~\ref{sec:partner}, \ref{sec:descent}, \ref{sec:proofs} and~\ref{sec:distinct} and of Lemma~\ref{lem:seed}
+have been formalized in Lean~4 with Mathlib; the development is a single file \texttt{TriPent.lean} in the accompanying files \cite{code}.
 Proposition~\ref{prop:classical} is not formalized, since the theory of genera is not available in Mathlib.
 It enters as two explicit hypotheses,
 \begin{align*}
@@ -902,10 +902,15 @@ the $2468$ small cases are verified by the Lean kernel from an explicit list of 
 \item \texttt{triangular\_two\_pentagonal\_mixed} and \texttt{tuple\_3\_5\_3\_1\_1\_1}: \texttt{PrimRep113} implies Theorem~\ref{thm:mixed}.
 \item \texttt{tuple\_3\_7\_1\_1\_1\_1} and \texttt{tuple\_3\_7\_2\_2\_2\_0} (from \texttt{PrimRep133}) and \texttt{tuple\_3\_7\_3\_m1\_1\_1} (from \texttt{PrimRep113}):
 the three tuples of Theorem~\ref{thm:shift}.
+\item \texttt{exists\_good}: Theorem~\ref{thm:E}, without any hypothesis; \texttt{seedSP}: the second assertion of Lemma~\ref{lem:gcd}.
+\item \texttt{pentagonal\_two\_distinct\_triangular} and \texttt{tuple\_3\_m1\_2\_4\_2\_2}: \texttt{PrimRep133} implies Theorem~\ref{thm:distinct}.
 \end{itemize}
 No axioms are used beyond the three standard ones of Lean (\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}), and no \texttt{sorry} or \texttt{native\_decide}.
 The periodicity argument is formalized as in the proofs above: the orbit of the map $R$ stays in a finite box, the pigeonhole principle gives a period,
 and Lemma~\ref{lem:2adic} is proved by strong induction on a bound for the entries.
+The formal proof of Theorem~\ref{thm:E} follows Steps~1, 4 and~5 above, with the case distinction of Step~5 carried out move by move.
+For Step~3 it uses a variant that avoids Lemma~\ref{lem:val}: if all symmetric primitive triples with first entry $\equiv 2\pmod 3$ were of type $\mathrm{III}^+$,
+the primitive triples with first entry $\equiv 1\pmod 3$ together with the vectors $s^-$ would form a set closed under $A$ and $B$, and the periodicity argument would make all of them diagonal.
 
 \section{Remarks}\label{sec:remarks}
 

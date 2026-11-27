@@ -1,10 +1,9 @@
 # Sums of two triangular numbers and a pentagonal number
 
 Draft paper, verification programs and Lean 4 formalization. Status (2026-11-26): proof written
-(16 pages); formalized in Lean 4 except for the classical input and Section 6 (see below); not yet
-read by a human mathematician. Version 1 (20 tuples) was checked by an independent AI referee pass,
-which found no error in the proofs; Theorems 3.8, 3.9, 1.5 (three more tuples) and Section 6
-(Theorem 1.6, one more tuple) were added afterwards.
+(16 pages); formalized in Lean 4 except for the classical input (see below); not yet read by a
+human mathematician. Version 1 (20 tuples) and the new Section 6 were each checked by an
+independent AI referee pass, which found no error in the proofs.
 
 Archived on Zenodo (2026-11-26, CC BY 4.0): version 1 is https://doi.org/10.5281/zenodo.24570763;
 all versions: https://doi.org/10.5281/zenodo.24570762.
@@ -55,14 +54,14 @@ This is 24 of the 407 tuples of Conjecture 1.5 in Sun's arXiv:1502.03056:
 
     cd lean && lake exe cache get && lake env lean TriPent.lean
 
-The last lines of output list the axioms of the seventeen main statements: only `propext`,
+The last lines of output list the axioms of the twenty main statements: only `propext`,
 `Classical.choice`, `Quot.sound`. No `sorry`, no `native_decide`. Proposition 4.1 of the paper is
 not formalized; it enters as the hypotheses `PrimRep133` and `PrimRep113`. Formalized without
-hypotheses: Theorems 3.2, 3.3, 3.8, 3.9 (`exists_other_residue`, `exists_mixed`,
-`exists_residue1_gt`, `exists_high_low`) and Lemma 4.2 (`seedS`, `seedT`). Formalized from the
-hypotheses: Theorems 1.1, 1.2 (universality), 1.4, 1.5 (the three tuples) and Corollary 1.3,
-including the 2468 small cases, which the kernel checks from an explicit list.
-Not formalized yet: Section 6 (Theorem 6.1 and Theorem 1.6, the tuple `(3,-1,2,4,2,2)`).
+hypotheses: Theorems 3.2, 3.3, 3.8, 3.9, 6.1 (`exists_other_residue`, `exists_mixed`,
+`exists_residue1_gt`, `exists_high_low`, `exists_good`) and Lemmas 4.2, 6.2 (`seedS`, `seedT`,
+`seedSP`). Formalized from the hypotheses: Theorems 1.1, 1.2 (universality), 1.4, 1.5, 1.6 and
+Corollary 1.3, that is, all 24 tuples, including the 2468 small cases, which the kernel checks
+from an explicit list.
 
 ## Classical input
 
